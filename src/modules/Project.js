@@ -20,6 +20,10 @@ export default class Project{
         return this.tasks;
     }
 
+    removeTask(task){
+        // find the task in the array and remove
+    }
+
     /*
     Get the tasks based on the priority level (low, medium, high)
     */
