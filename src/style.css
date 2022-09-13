@@ -31,7 +31,7 @@
 #nav{
     background-color: var(--colorOne);
     color: var(--secondary-color);
-    grid-area: 2/1/6/5;
+    grid-area: 2/1/6/2;
     padding: 5rem;
 }
 
@@ -41,7 +41,10 @@
 }
 
 #projects{
+    padding-top: 0.5rem;
     padding-left: 1rem;
+    display: grid;
+    gap: 0.5rem;
 }
 
 /*--------MAIN---------*/
