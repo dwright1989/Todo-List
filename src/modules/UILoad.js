@@ -1,3 +1,4 @@
+import List from './List'
 import Project from './Project'
 import Task from './Task'
 
@@ -32,7 +33,7 @@ export default class UILoad{
     static loadNavigation(){
         let nav = document.createElement("div");
         nav.id = "nav";
-        nav.innerHTML = "This is the navigation panel"; // TO BE CHANGED
+        nav.innerHTML = '<a href="">Home</a><p>Projects</p><div id="projects"><a href="">+ Add Project</a></div>';
         return nav;
     }
 

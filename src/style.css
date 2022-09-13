@@ -1,20 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+  
+:root{
+    --main-color: 	#481317;
+    --secondary-color: #dfe0a1;
+    --colorOne: #770e07;
+    --colorTwo: #b24800;
+    --colorThree: #e48f33;
+}
+
 #content{
     display:grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 1fr 5fr;
 }
 
+/*--------BANNER---------*/
+
 #banner{
-    background-color: red;
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    text-align: right;
     grid-area: 1/1/2/5;
 }
 
+/*--------NAVIGATION---------*/
+
 #nav{
-    background-color: blue;
+    background-color: var(--colorOne);
+    color: var(--secondary-color);
     grid-area: 2/1/6/5;
+    padding: 5rem;
 }
 
+#nav a{
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+#projects{
+    padding-left: 1rem;
+}
+
+/*--------MAIN---------*/
+
 #mainContent{
-    background-color: green;
+    background-color: var(--secondary-color);
+    color: var(--main-color);
     grid-area: 2/2/6/5;
 }
