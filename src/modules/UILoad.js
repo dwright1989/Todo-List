@@ -61,7 +61,26 @@ export default class UILoad{
     static loadMainContent(){
         let mainContent = document.createElement("div");
         mainContent.id = "mainContent";
-        mainContent.innerHTML = "This is the main content where the tasks go"; // TO BE CHANGED
+        let heading = document.createElement("h2");
+        heading.innerHTML = "Home";
+        mainContent.appendChild(heading);
+        let tasksDiv = document.createElement("div");
+        tasksDiv.id = "tasks";
+        
+        // get all the tasks (loop through all projects and print their tasks)
+        /* TO BE REMOVED */
+        let projects = UILoad.loadProjects();
+        for(let i=0; i<projects.length; i++){
+            let tasks = projects[i].getTasks();
+            for(let j=0; j<tasks.length; j++){
+                let taskElement = document.createElement("div");
+                taskElement.innerHTML = tasks[j].getTitle();
+                tasksDiv.appendChild(taskElement);
+            }
+        }
+
+        /* END TO BE REMOVED */
+        mainContent.appendChild(tasksDiv);
         return mainContent;
     }
 
@@ -69,8 +88,20 @@ export default class UILoad{
         // get the project objects from where they are stored
         /* TO BE REMOVED */
         let project1 = new Project("Work");
+        let task1 = new Task("task 1", "this is task one in work", 1, new Date());
+        project1.addTask(task1);
+        let task2 = new Task("task 2", "this is task two in work", 1, new Date());
+        project1.addTask(task2);
+        let task3 = new Task("task 3", "this is task three in work", 1, new Date());
+        project1.addTask(task3);
         let project2 = new Project("Home");
+        let taskOne = new Task("task one", "this is task one in home", 1, new Date());
+        project2.addTask(taskOne);
+        let taskTwo = new Task("task two", "this is task two in home", 1, new Date());
+        project2.addTask(taskTwo);
         let project3 = new Project("School");
+        let taskI = new Task("task I", "this is task one in School", 1, new Date());
+        project3.addTask(taskI);
         let list = new List();
         console.log("list: " + list);
         list.addProject(project1);
