@@ -1,9 +1,10 @@
 export default class Task{
-    constructor(title, description, priority, dueDate){
+    constructor(title, description, priority, dueDate, isComplete){
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
+        this.isComplete = isComplete;
     }
 
     setTitle(title){
@@ -36,5 +37,21 @@ export default class Task{
 
     getDueDate(){
         return this.dueDate;
+    }
+
+    setIsComplete(isComplete){
+        if(isComplete==null || isComplete==""){
+            this.isComplete = false;
+        }else{
+            this.isComplete = isComplete;
+        }
+    }
+
+    getIsComplete(){
+        if(this.isComplete==null || this.isComplete==""){
+            return false;
+        }else{
+            return this.isComplete;
+        }
     }
 }

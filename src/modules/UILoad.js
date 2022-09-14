@@ -106,6 +106,24 @@ export default class UILoad{
                 taskDueDate.classList.add(tasks[j].getPriority());
                 taskDueDate.innerHTML = tasks[j].getDueDate();
                 // Add iscompleted - TO BE IMPLEMENTED
+                let isComplete = document.createElement("div");
+                isComplete.classList.add("isComplete");
+                isComplete.innerHTML="Complete:";
+                // Add check box
+                let completeCheckbox = document.createElement("input");
+                completeCheckbox.setAttribute("type", "checkbox");
+                completeCheckbox.addEventListener("change", function(){
+                    // get if checked
+                    if(this.checked){
+                        tasks[j].setIsComplete(true);
+                        taskElement.classList.add("complete");
+                    }else{
+                        tasks[j].setIsComplete(false);
+                        taskElement.classList.remove("complete");
+                    }
+                    
+                });
+                isComplete.appendChild(completeCheckbox);
                 // Add delete button
                 let deleteButton = document.createElement("div"); 
                 deleteButton.classList.add("deleteTask");
@@ -118,6 +136,7 @@ export default class UILoad{
                 taskElement.appendChild(deleteButton);
                 taskElement.appendChild(taskDescription);
                 taskElement.appendChild(taskDueDate);
+                taskElement.appendChild(isComplete);
                 tasksDiv.appendChild(taskElement);
             }
         }
