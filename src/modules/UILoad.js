@@ -50,7 +50,7 @@ export default class UILoad{
 
             // Add event listener to each project link
             projectLink.addEventListener("click", function(){
-                UILoad.loadProjectPage(projectLink.id);
+                UILoad.loadProject(this.innerHTML);
             });
             projectsDiv.appendChild(projectLink);
         }
@@ -61,12 +61,6 @@ export default class UILoad{
         projectsDiv.appendChild(addProjectButton);
         nav.appendChild(projectsDiv);
         return nav;
-    }
-
-    static loadProjectPage(projectTitle){
-        // TO BE COMPLETED
-        let title = projectTitle.split("t").pop();
-        console.log(title);
     }
 
     static loadMainContent(){
@@ -144,6 +138,76 @@ export default class UILoad{
         return mainContent;
     }
 
+
+    static loadProject(projectTitle){
+        let projects = this.loadProjects();
+        let project = "";
+        // BETTER WAY TO DO THIS FROM LIST WHEN LOCAL STORAGE IMPLEMENTED
+        for(let i=0; i<projects.length; i++){
+            if(projects[i].getTitle()==projectTitle){
+                project = projects[i];
+            }
+        }
+        let tasksDiv = document.getElementById("tasks");
+        tasksDiv.innerHTML= "";
+        let tasks = project.getTasks();
+            for(let j=0; j<tasks.length; j++){
+                let taskElement = document.createElement("div");
+                taskElement.id = "project:" + project.getTitle() + ".task:" + tasks[j].getTitle();
+                taskElement.classList.add("task");
+                // Add Title
+                let taskTitle = document.createElement("div");
+                taskTitle.classList.add("title");
+                taskTitle.innerHTML = tasks[j].getTitle();
+                // Add description
+                let taskDescription = document.createElement("div");
+                taskDescription.classList.add("description");
+                taskDescription.innerHTML = tasks[j].getDescription();
+                // Add due date
+                let taskDueDate = document.createElement("div");
+                taskDueDate.classList.add("dueDate");
+                taskDueDate.classList.add(tasks[j].getPriority());
+                taskDueDate.innerHTML = tasks[j].getDueDate();
+                // Add iscompleted 
+                let isComplete = document.createElement("div");
+                isComplete.classList.add("isComplete");
+                isComplete.innerHTML="Complete:";
+                // Add check box
+                let completeCheckbox = document.createElement("input");
+                completeCheckbox.setAttribute("type", "checkbox");
+                completeCheckbox.addEventListener("change", function(){
+                    // get if checked
+                    if(this.checked){
+                        tasks[j].setIsComplete(true);
+                        taskElement.classList.add("complete");
+                    }else{
+                        tasks[j].setIsComplete(false);
+                        taskElement.classList.remove("complete");
+                    }
+                    
+                });
+                isComplete.appendChild(completeCheckbox);
+                // Add delete button
+                let deleteButton = document.createElement("div"); 
+                deleteButton.classList.add("deleteTask");
+                deleteButton.innerHTML = "Delete Task";
+                deleteButton.addEventListener("click", function(){
+                    // GET PARENT ID FOR TASK TO DELETE AND CALL METHOD
+                    console.log("delete button clicked");
+                });
+                taskElement.appendChild(taskTitle);
+                taskElement.appendChild(deleteButton);
+                taskElement.appendChild(taskDescription);
+                taskElement.appendChild(taskDueDate);
+                taskElement.appendChild(isComplete);
+                //let tasksDiv = document.getElementById("tasks");
+                tasksDiv.appendChild(taskElement);
+            }
+        
+    }
+
+
+
     static loadProjects(){
         // get the project objects from where they are stored
         /* TO BE REMOVED */
@@ -168,7 +232,10 @@ export default class UILoad{
         list.addProject(project2);
         list.addProject(project3);
 
-        /* TO BE REMOVED */
+        /* END TO BE REMOVED */
+
+
+
         let projects =  list.getProjects();
         return projects;
     }

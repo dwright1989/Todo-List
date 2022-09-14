@@ -21,6 +21,14 @@ export default class List{
         return this.projects;
     }
 
+    getProject(title){
+        for(i=0; i<this.projects.length; i++){
+            if(projects[i].getTitle()==title){
+                return projects[i]
+            }
+        }
+    }
+
     static removeTask(project){
         // find the project in the array and remove
     }
