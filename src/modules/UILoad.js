@@ -37,16 +37,32 @@ export default class UILoad{
     static loadNavigation(){
         let nav = document.createElement("div");
         nav.id = "nav";
-        nav.innerHTML = '<a href="">Home</a><p>Projects</p>';
+        let homeButton = document.createElement("p");
+        homeButton.id = "homeButton";
+        homeButton.innerHTML = "Home";
+        nav.appendChild(homeButton);
+        homeButton.addEventListener("click", function(){
+            UILoad.loadMainContent();
+        });
+
+       
         let projectsDiv = document.createElement("div");
         projectsDiv.id = "projects";
+        
+        
 
         // Add the projects to the navigation bar
         let projects = UILoad.loadProjects();
         for(var i = 0; i < projects.length; i++){
             let projectLink = document.createElement("a");
             projectLink.classList.add("project-link");
+            projectLink.id = "project" + projects[i].getTitle();
             projectLink.innerHTML = projects[i].getTitle();
+
+            // Add event listener to each project link
+            projectLink.addEventListener("click", function(){
+                UILoad.loadProjectPage(projectLink.id);
+            });
             projectsDiv.appendChild(projectLink);
         }
 
@@ -56,6 +72,12 @@ export default class UILoad{
         projectsDiv.appendChild(addProjectButton);
         nav.appendChild(projectsDiv);
         return nav;
+    }
+
+    static loadProjectPage(projectTitle){
+        // TO BE COMPLETED
+        let title = projectTitle.split("t").pop();
+        console.log(title);
     }
 
     static loadMainContent(){
