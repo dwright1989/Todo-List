@@ -74,15 +74,15 @@
     grid-area: 1/2/2/3;
 }
 
-#low{
+.low{
     color: green;
 }
 
-#medium{
+.medium{
     color: orange;
 }
 
-#high{
+.high{
     color: red;
 }
 
@@ -96,9 +96,12 @@
 }
 
 .deleteTask{
+    grid-area: 1/2/2/3;
     width: 10%;
 }
 
 .description{
     grid-area: 2/1/3/3;
+    border-top: 1px solid black;
 }
+

@@ -4,24 +4,17 @@ import Task from './Task'
 
 export default class UILoad{
 
-    
-
     static loadFullPage(){
         let content = document.getElementById("content");
         // Load Banner
         let banner = UILoad.loadBanner();
-
         // Load Navigation
         let navigation = UILoad.loadNavigation();
-
         // Load main/task content
         let mainContent = UILoad.loadMainContent();
-
         content.appendChild(banner);
         content.appendChild(navigation);
         content.appendChild(mainContent);
-
-        
     }
 
     static loadBanner(){
@@ -45,12 +38,8 @@ export default class UILoad{
             UILoad.loadMainContent();
         });
 
-       
         let projectsDiv = document.createElement("div");
         projectsDiv.id = "projects";
-        
-        
-
         // Add the projects to the navigation bar
         let projects = UILoad.loadProjects();
         for(var i = 0; i < projects.length; i++){
@@ -90,16 +79,12 @@ export default class UILoad{
         mainContent.appendChild(heading);
         let keyDiv = document.createElement("div");
         keyDiv.id = "key";
-        keyDiv.innerHTML = '<h3>Priority Key</h3><span id="low">Low </span><span id="medium">Medium </span><span id="high">High</span>';
+        keyDiv.innerHTML = '<h3>Priority Key</h3><span class="low">Low </span><span class="medium">Medium </span><span class="high">High</span>';
         mainContent.appendChild(keyDiv);
-
-
         /* UI for the tasks */
         let tasksDiv = document.createElement("div");
         tasksDiv.id = "tasks";
-
         // get all the tasks (loop through all projects and print their tasks)
-        /* TO BE REMOVED */
         let projects = UILoad.loadProjects();
         for(let i=0; i<projects.length; i++){
             let tasks = projects[i].getTasks();
@@ -118,10 +103,11 @@ export default class UILoad{
                 // Add due date
                 let taskDueDate = document.createElement("div");
                 taskDueDate.classList.add("dueDate");
+                taskDueDate.classList.add(tasks[j].getPriority());
                 taskDueDate.innerHTML = tasks[j].getDueDate();
                 // Add iscompleted - TO BE IMPLEMENTED
                 // Add delete button
-                let deleteButton = document.createElement("button"); // CHANGE THIS TO IMAGE
+                let deleteButton = document.createElement("div"); 
                 deleteButton.classList.add("deleteTask");
                 deleteButton.innerHTML = "Delete Task";
                 deleteButton.addEventListener("click", function(){
@@ -135,8 +121,6 @@ export default class UILoad{
                 tasksDiv.appendChild(taskElement);
             }
         }
-
-        /* END TO BE REMOVED */
         mainContent.appendChild(tasksDiv);
         return mainContent;
     }
@@ -145,19 +129,19 @@ export default class UILoad{
         // get the project objects from where they are stored
         /* TO BE REMOVED */
         let project1 = new Project("Work");
-        let task1 = new Task("task 1", "this is task one in work", 1, new Date());
+        let task1 = new Task("task 1", "this is task one in work", "low", new Date());
         project1.addTask(task1);
-        let task2 = new Task("task 2", "this is task two in work", 1, new Date());
+        let task2 = new Task("task 2", "this is task two in work", "high", new Date());
         project1.addTask(task2);
-        let task3 = new Task("task 3", "this is task three in work", 1, new Date());
+        let task3 = new Task("task 3", "this is task three in work", "low", new Date());
         project1.addTask(task3);
         let project2 = new Project("Home");
-        let taskOne = new Task("task one", "this is task one in home", 1, new Date());
+        let taskOne = new Task("task one", "this is task one in home", "medium", new Date());
         project2.addTask(taskOne);
-        let taskTwo = new Task("task two", "this is task two in home", 1, new Date());
+        let taskTwo = new Task("task two", "this is task two in home", "low", new Date());
         project2.addTask(taskTwo);
         let project3 = new Project("School");
-        let taskI = new Task("task I", "this is task one in School", 1, new Date());
+        let taskI = new Task("task I", "this is task one in School", "high", new Date());
         project3.addTask(taskI);
         let list = new List();
         console.log("list: " + list);
