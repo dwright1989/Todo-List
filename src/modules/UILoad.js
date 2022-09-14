@@ -81,13 +81,24 @@ export default class UILoad{
     }
 
     static loadMainContent(){
+        /* UI for mainContent banner which includes title, key and buttons */
         let mainContent = document.createElement("div");
         mainContent.id = "mainContent";
         let heading = document.createElement("h2");
         heading.innerHTML = "Home";
+        heading.id = "mainContentHeading";
         mainContent.appendChild(heading);
+        let keyDiv = document.createElement("div");
+        keyDiv.id = "key";
+        keyDiv.innerHTML = '<h3>Priority Key</h3><span id="low">Low </span><span id="medium">Medium </span><span id="high">High</span>';
+        mainContent.appendChild(keyDiv);
+
+
+        /* UI for the tasks */
         let tasksDiv = document.createElement("div");
         tasksDiv.id = "tasks";
+
+
         
         // get all the tasks (loop through all projects and print their tasks)
         /* TO BE REMOVED */

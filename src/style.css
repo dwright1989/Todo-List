@@ -53,4 +53,32 @@
     background-color: var(--secondary-color);
     color: var(--main-color);
     grid-area: 2/2/6/5;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr 5fr;
+}
+
+#mainContentHeading{
+    grid-area:1/1/3/3;
+    padding: 2rem;
+}
+
+#tasks{
+    grid-area: 3/1/7/3;
+}
+
+#key{
+    grid-area: 1/2/2/3;
+}
+
+#low{
+    color: green;
+}
+
+#medium{
+    color: orange;
+}
+
+#high{
+    color: red;
 }
