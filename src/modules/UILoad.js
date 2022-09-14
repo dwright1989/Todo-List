@@ -98,8 +98,6 @@ export default class UILoad{
         let tasksDiv = document.createElement("div");
         tasksDiv.id = "tasks";
 
-
-        
         // get all the tasks (loop through all projects and print their tasks)
         /* TO BE REMOVED */
         let projects = UILoad.loadProjects();
@@ -107,7 +105,33 @@ export default class UILoad{
             let tasks = projects[i].getTasks();
             for(let j=0; j<tasks.length; j++){
                 let taskElement = document.createElement("div");
-                taskElement.innerHTML = tasks[j].getTitle();
+                taskElement.id = "project:" + projects[i].getTitle() + ".task:" + tasks[j].getTitle();
+                taskElement.classList.add("task");
+                // Add Title
+                let taskTitle = document.createElement("div");
+                taskTitle.classList.add("title");
+                taskTitle.innerHTML = tasks[j].getTitle();
+                // Add description
+                let taskDescription = document.createElement("div");
+                taskDescription.classList.add("description");
+                taskDescription.innerHTML = tasks[j].getDescription();
+                // Add due date
+                let taskDueDate = document.createElement("div");
+                taskDueDate.classList.add("dueDate");
+                taskDueDate.innerHTML = tasks[j].getDueDate();
+                // Add iscompleted - TO BE IMPLEMENTED
+                // Add delete button
+                let deleteButton = document.createElement("button"); // CHANGE THIS TO IMAGE
+                deleteButton.classList.add("deleteTask");
+                deleteButton.innerHTML = "Delete Task";
+                deleteButton.addEventListener("click", function(){
+                    // GET PARENT ID FOR TASK TO DELETE AND CALL METHOD
+                    console.log("delete button clicked");
+                });
+                taskElement.appendChild(taskTitle);
+                taskElement.appendChild(deleteButton);
+                taskElement.appendChild(taskDescription);
+                taskElement.appendChild(taskDueDate);
                 tasksDiv.appendChild(taskElement);
             }
         }
