@@ -82,6 +82,9 @@ export default class UILoad{
         keyDiv.id = "key";
         keyDiv.innerHTML = '<h3>Priority Key</h3><span class="low">Low </span><span class="medium">Medium </span><span class="high">High</span>';
         mainContent.appendChild(keyDiv);
+        let addTask = document.createElement("div");
+        addTask.id="addTask";
+        mainContent.appendChild(addTask);
         /* UI for the tasks */
         let tasksDiv = document.createElement("div");
         tasksDiv.id = "tasks";
@@ -104,14 +107,28 @@ export default class UILoad{
         this.displayTasks(tasks);
         let mainHeader = document.getElementById("mainContentHeading");
         mainHeader.innerHTML = projectTitle;
+        let addTask = document.getElementById("addTask");
+        addTask.innerHTML="";
+        let addTaskBtn = document.createElement("button");
+        addTaskBtn.id = "addTaskBtn";
+        addTaskBtn.innerHTML = "Add Task";
+        addTaskBtn.addEventListener("click", function(){
+            UILoad.createAddTaskModal(project);
+        });        
+        addTask.appendChild(addTaskBtn);
     }
 
 
     static displayTasks(tasks){
+        console.log("tasks " + JSON.stringify(tasks));
         let tasksDiv = document.getElementById("tasks");
-        for(let j=0; j<tasks.length; j++){
+        if(tasks.length==0){
+            tasksDiv.innerHTML = "No tasks exist in this project yet.";
+        }else{
+            for(let j=0; j<tasks.length; j++){
+                console.log("the task: " + JSON.stringify(tasks[j]));
+
                 let taskElement = document.createElement("div");
-                //taskElement.id = "project:" + project.getTitle() + ".task:" + tasks[j].getTitle();
                 taskElement.classList.add("task");
                 // Add Title
                 let taskTitle = document.createElement("div");
@@ -160,6 +177,8 @@ export default class UILoad{
                 taskElement.appendChild(isComplete);
                 tasksDiv.appendChild(taskElement);
             }
+        }
+        
     }
     
     static createAddProjectModal(){
@@ -193,6 +212,39 @@ export default class UILoad{
             content.appendChild(nav);
             UILoad.loadProject(project.getTitle());
             
+        });
+        
+    }
+
+    static createAddTaskModal(project){
+        let modalDiv = document.getElementById("taskModal")
+        if(modalDiv==null || modalDiv==""){
+            modalDiv = document.createElement("div");
+            modalDiv.id = "taskModal";
+            modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span>
+            <h2>Add Task</h2><form action="#" method="post" id="addTaskForm"><div id="formFields">
+            <label for="Title">Title:</label><input type="text" id="title" required>
+            Description:<textarea name="description" form="addTaskForm">Enter description here...</textarea>
+            Priority: <input type="radio" id="low" name="priority" value="low"><label for="low">Low</label><br>
+            <input type="radio" id="medium" name="priority" value="medium"><label for="medium">Medium</label><br>
+            <input type="radio" id="high" name="priority" value="high"><label for="high">High</label>
+            <label for="dueDate">Date Due:</label><br><input type="date" id="dueDate" name="dueDate">
+            <br></div><button type="button" id="submitTask"">Add</button></form></div>`;
+            content.appendChild(modalDiv);            
+        }else{
+            modalDiv.style.display="block";
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modalDiv.style.display = "none";
+        }
+
+        let addButton = document.getElementById("submitTask");
+        addButton.addEventListener("click", function(){
+            let task = new Task(this.form.title.value, this.form.description.value, this.form.priority.value, this.form.dueDate.value);
+            Storage.addTask(task, project.getTitle());
+            modalDiv.style.display="none";
+            UILoad.loadProject(project.getTitle());
         });
         
     }

@@ -13,6 +13,7 @@ export default class Project{
     }
 
     addTask(task){
+        console.log("adding task in project");
         this.tasks.push(task);
     }
 
@@ -22,6 +23,10 @@ export default class Project{
 
     removeTask(task){
         // find the task in the array and remove
+    }
+
+    setTasks(tasks){
+        this.tasks = tasks;
     }
 
     /*

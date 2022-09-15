@@ -86,8 +86,12 @@
     color: red;
 }
 
+#addTask{
+    grid-area: 2/2/3/3;
+}
+
 /*--------MODALS---------*/
-#projectModal{
+#projectModal, #taskModal{
     position: fixed; 
     z-index: 1; 
     left: 0;

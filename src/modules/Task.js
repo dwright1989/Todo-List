@@ -12,6 +12,7 @@ export default class Task{
     }
 
     getTitle(){
+        console.log("this");
         return this.title;
     }
 

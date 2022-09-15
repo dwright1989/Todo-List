@@ -15,20 +15,24 @@ export default class List{
     setProjects(projects) {
         this.projects = projects;
     }
-    
-
-    getProjects(){
-        return this.projects;
-    }
 
     getProject(title){
-        for(i=0; i<this.projects.length; i++){
-            if(projects[i].getTitle()==title){
-                return projects[i]
+        let projectsLength = this.projects.length;
+        //console.log("the project: " + JSON.stringify(this.projects[0]));
+        for(let i=0; i<projectsLength; i++){
+            let project = this.projects[i];
+           if(project.getTitle().toLowerCase()==title.toLowerCase()){
+                return this.projects[i];
             }
         }
     }
+    
 
+    getProjects(){
+        console.log("getting the projects...");
+        console.log("the projects are: " + this.projects);
+        return this.projects;
+    }
     static removeTask(project){
         // find the project in the array and remove
     }
