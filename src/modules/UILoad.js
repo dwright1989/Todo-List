@@ -19,13 +19,6 @@ export default class UILoad{
         content.appendChild(banner);
         content.appendChild(navigation);
         content.appendChild(mainContent); 
-
-         // get all the tasks (loop through all projects and print their tasks)
-         let projects = UILoad.loadProjects();
-         for(let i=0; i<projects.length; i++){
-             let tasks = projects[i].getTasks();
-             this.displayTasks(tasks);
-         }
     }
 
     static loadBanner(){
@@ -52,7 +45,7 @@ export default class UILoad{
         let projectsDiv = document.createElement("div");
         projectsDiv.id = "projects";
         // Add the projects to the navigation bar
-        let projects = UILoad.loadProjects();
+        let projects = Storage.getList().getProjects();
         for(var i = 0; i < projects.length; i++){
             let projectLink = document.createElement("a");
             projectLink.classList.add("project-link");
@@ -70,8 +63,7 @@ export default class UILoad{
         addProjectButton.id = "add-project";
         addProjectButton.innerHTML = "+ Add Project";
         addProjectButton.addEventListener("click", function(){
-            let modalDiv = UILoad.createAddProjectModal();
-            
+            UILoad.createAddProjectModal();
         });
         projectsDiv.appendChild(addProjectButton);
         nav.appendChild(projectsDiv);
@@ -99,9 +91,8 @@ export default class UILoad{
 
 
     static loadProject(projectTitle){
-        let projects = this.loadProjects();
+        let projects = Storage.getList().getProjects();
         let project = "";
-        // BETTER WAY TO DO THIS FROM LIST WHEN LOCAL STORAGE IMPLEMENTED
         for(let i=0; i<projects.length; i++){
             if(projects[i].getTitle()==projectTitle){
                 project = projects[i];
@@ -111,6 +102,8 @@ export default class UILoad{
         tasksDiv.innerHTML= "";
         let tasks = project.getTasks();
         this.displayTasks(tasks);
+        let mainHeader = document.getElementById("mainContentHeading");
+        mainHeader.innerHTML = projectTitle;
     }
 
 
@@ -168,38 +161,6 @@ export default class UILoad{
                 tasksDiv.appendChild(taskElement);
             }
     }
-
-    static loadProjects(){
-        // get the project objects from where they are stored
-        /* TO BE REMOVED */
-        let project1 = new Project("Work");
-        let task1 = new Task("task 1", "this is task one in work", "low", new Date());
-        project1.addTask(task1);
-        let task2 = new Task("task 2", "this is task two in work", "high", new Date());
-        project1.addTask(task2);
-        let task3 = new Task("task 3", "this is task three in work", "low", new Date());
-        project1.addTask(task3);
-        let project2 = new Project("Home");
-        let taskOne = new Task("task one", "this is task one in home", "medium", new Date());
-        project2.addTask(taskOne);
-        let taskTwo = new Task("task two", "this is task two in home", "low", new Date());
-        project2.addTask(taskTwo);
-        let project3 = new Project("School");
-        let taskI = new Task("task I", "this is task one in School", "high", new Date());
-        project3.addTask(taskI);
-        let list = new List();
-        console.log("list: " + list);
-        list.addProject(project1);
-        list.addProject(project2);
-        list.addProject(project3);
-
-        /* END TO BE REMOVED */
-
-
-
-        let projects =  list.getProjects();
-        return projects;
-    }
     
     static createAddProjectModal(){
         let modalDiv = document.getElementById("projectModal")
@@ -221,6 +182,8 @@ export default class UILoad{
             // ADD OPTION TO CHECK THAT THE TITLE IS NOT THE SAME AS ANOTHER PROJECT TITLE
             let project = new Project(this.form.title.value);
             Storage.addProject(project);
+            modalDiv.style.display="none";
+            UILoad.loadProject(project.getTitle());
         });
         
     }

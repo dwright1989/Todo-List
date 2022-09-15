@@ -10,28 +10,28 @@ export default class Storage {
         localStorage.setItem('list', JSON.stringify(data))
       }
     
-      static getList() {
-        const list = Object.assign(
-          new List(),
-          JSON.parse(localStorage.getItem('list'))
+    static getList() {
+    const list = Object.assign(
+        new List(),
+        JSON.parse(localStorage.getItem('list'))
+    )
+
+    list.setProjects(
+        list
+        .getProjects()
+        .map((project) => Object.assign(new Project(), project))
+    )
+
+    /*list
+        .getProjects()
+        .forEach((project) =>
+        project.setTasks(
+            project.getTasks().map((task) => Object.assign(new Task(), task))
         )
-    
-        list.setProjects(
-          list
-            .getProjects()
-            .map((project) => Object.assign(new Project(), project))
-        )
-    
-        /*list
-          .getProjects()
-          .forEach((project) =>
-            project.setTasks(
-              project.getTasks().map((task) => Object.assign(new Task(), task))
-            )
-          )*/
-    
-        return list
-      }
+        )*/
+
+    return list
+    }
 
     static addProject(project) {
         const list = Storage.getList();
