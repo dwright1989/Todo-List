@@ -1,6 +1,7 @@
 import List from './List'
 import Project from './Project'
 import Task from './Task'
+import Storage from './Storage'
 
 export default class UILoad{
 
@@ -68,6 +69,10 @@ export default class UILoad{
         let addProjectButton = document.createElement("a"); // need to add event listener
         addProjectButton.id = "add-project";
         addProjectButton.innerHTML = "+ Add Project";
+        addProjectButton.addEventListener("click", function(){
+            let modalDiv = UILoad.createAddProjectModal();
+            
+        });
         projectsDiv.appendChild(addProjectButton);
         nav.appendChild(projectsDiv);
         return nav;
@@ -196,4 +201,27 @@ export default class UILoad{
         return projects;
     }
     
+    static createAddProjectModal(){
+        let modalDiv = document.getElementById("projectModal")
+        if(modalDiv==null || modalDiv==""){
+            modalDiv = document.createElement("div");
+            modalDiv.id = "projectModal";
+            modalDiv.innerHTML = '<div class="modal-content"><span class="close">&times;</span><h2>Add Project</h2><form action="#" method="post" id="addProjectForm"><div id="formFields"><label for="Title">Title:</label><input type="text" id="title" required></div><button type="button" id="submitBtn"">Add</button></form></div>';
+            content.appendChild(modalDiv);            
+        }else{
+            modalDiv.style.display="block";
+        }
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modalDiv.style.display = "none";
+        }
+
+        let addButton = document.getElementById("submitBtn");
+        addButton.addEventListener("click", function(){
+            // ADD OPTION TO CHECK THAT THE TITLE IS NOT THE SAME AS ANOTHER PROJECT TITLE
+            let project = new Project(this.form.title.value);
+            Storage.addProject(project);
+        });
+        
+    }
 }
