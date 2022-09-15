@@ -179,11 +179,20 @@ export default class UILoad{
 
         let addButton = document.getElementById("submitBtn");
         addButton.addEventListener("click", function(){
-            // ADD OPTION TO CHECK THAT THE TITLE IS NOT THE SAME AS ANOTHER PROJECT TITLE
+            let projects = Storage.getList().getProjects();
+            for(let i=0; i<projects.length; i++){
+                if(projects[i].getTitle().toLowerCase() == this.form.title.value.toLowerCase()){
+                    alert("STOP! THIS PROJECT NAME ALREADY EXISTS");
+                    return false;
+                }
+            }
             let project = new Project(this.form.title.value);
             Storage.addProject(project);
             modalDiv.style.display="none";
+            let nav = UILoad.loadNavigation();
+            content.appendChild(nav);
             UILoad.loadProject(project.getTitle());
+            
         });
         
     }
