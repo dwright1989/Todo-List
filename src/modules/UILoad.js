@@ -18,7 +18,7 @@ export default class UILoad{
         let mainContent = UILoad.loadMainContent();
         content.appendChild(banner);
         content.appendChild(navigation);
-        content.appendChild(mainContent); 
+        //content.appendChild(mainContent); 
     }
 
     static loadBanner(){
@@ -89,7 +89,14 @@ export default class UILoad{
         let tasksDiv = document.createElement("div");
         tasksDiv.id = "tasks";
         mainContent.appendChild(tasksDiv);
-        return mainContent;        
+        content.appendChild(mainContent);
+        // Loop through projects and display all tasks
+        let projects = Storage.getList().getProjects();
+        console.log("the projects: " + JSON.stringify(projects));
+        
+        for(let i=0; i<projects.length; i++){
+            UILoad.displayTasks(projects[i], "home");
+        }     
     }
 
 
@@ -104,7 +111,7 @@ export default class UILoad{
         let tasksDiv = document.getElementById("tasks");
         tasksDiv.innerHTML= "";
         //let tasks = project.getTasks();
-        this.displayTasks(project);
+        this.displayTasks(project, "project");
         let mainHeader = document.getElementById("mainContentHeading");
         mainHeader.innerHTML = projectTitle;
         let addTask = document.getElementById("addTask");
@@ -119,11 +126,10 @@ export default class UILoad{
     }
 
 
-    static displayTasks(project){
-        let tasks = project.getTasks();
-        console.log("tasks " + JSON.stringify(tasks));
+    static displayTasks(project, page){
+        let tasks = Storage.getList().getProject(project.getTitle()).getTasks();
         let tasksDiv = document.getElementById("tasks");
-        if(tasks.length==0){
+        if(tasks.length==0 && page=="project"){
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
         }else{
             for(let j=0; j<tasks.length; j++){
