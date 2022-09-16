@@ -235,6 +235,8 @@ export default class UILoad{
             content.appendChild(modalDiv);            
         }else{
             modalDiv.style.display="block";
+            let form = document.getElementById("addTaskForm");
+            form.reset();
         }
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
@@ -243,13 +245,26 @@ export default class UILoad{
         let form = document.getElementById("addTaskForm");
 
         form.addEventListener('submit', (event) => {
-            alert("event:   " + event);
-            let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value);
-            console.log("project title: " + project.getTitle());
-            Storage.addTask(task, project.getTitle());
-            modalDiv.style.display="none";
-            UILoad.loadProject(project.getTitle());
-            event.preventDefault();
+
+            let taskExists = false;
+            let tasks = Storage.getList().getProject(project.getTitle()).getTasks();
+            for(let i=0; i<tasks.length; i++){
+                if(tasks[i].getTitle().toLowerCase() == form.title.value.toLowerCase()){
+                    taskExists = true;
+                }
+            }
+            if(taskExists){
+                alert("STOP TASK EXISTS");
+                event.preventDefault();
+            }else{
+                let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value);
+                Storage.addTask(task, project.getTitle());
+                modalDiv.style.display="none";
+                UILoad.loadProject(project.getTitle());
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+            
         });
 
     }

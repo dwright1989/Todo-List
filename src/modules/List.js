@@ -18,7 +18,6 @@ export default class List{
 
     getProject(title){
         let projectsLength = this.projects.length;
-        //console.log("the project: " + JSON.stringify(this.projects[0]));
         for(let i=0; i<projectsLength; i++){
             let project = this.projects[i];
            if(project.getTitle().toLowerCase()==title.toLowerCase()){
@@ -29,8 +28,6 @@ export default class List{
     
 
     getProjects(){
-        console.log("getting the projects...");
-        console.log("the projects are: " + this.projects);
         return this.projects;
     }
     static removeTask(project){
