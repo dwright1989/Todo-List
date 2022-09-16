@@ -188,9 +188,14 @@ export default class UILoad{
         if(modalDiv==null || modalDiv==""){
             modalDiv = document.createElement("div");
             modalDiv.id = "projectModal";
-            modalDiv.innerHTML = '<div class="modal-content"><span class="close">&times;</span><h2>Add Project</h2><form action="#" method="post" id="addProjectForm"><div id="formFields"><label for="Title">Title:</label><input type="text" id="title" required></div><button type="button" id="submitBtn"">Add</button></form></div>';
+            modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h2>Add Project</h2>
+            <form action="#" method="post" id="addProjectForm"><div id="formFields">
+            <label for="Title">Title:</label><input type="text" id="title" required/></div>
+            <input type="submit" value="Submit"></form></div>`;
             content.appendChild(modalDiv);            
         }else{
+            let form = document.getElementById("addProjectForm");
+            form.reset();
             modalDiv.style.display="block";
         }
         var span = document.getElementsByClassName("close")[0];
@@ -198,21 +203,32 @@ export default class UILoad{
             modalDiv.style.display = "none";
         }
 
-        let addButton = document.getElementById("submitBtn");
-        addButton.addEventListener("click", function(){
+        let form = document.getElementById("addProjectForm");
+
+        form.addEventListener('submit', (event) => {
+            let projectExists = false;
             let projects = Storage.getList().getProjects();
             for(let i=0; i<projects.length; i++){
-                if(projects[i].getTitle().toLowerCase() == this.form.title.value.toLowerCase()){
-                    alert("STOP! THIS PROJECT NAME ALREADY EXISTS");
-                    return false;
+                if(projects[i].getTitle().toLowerCase() == form.title.value.toLowerCase()){
+                    projectExists = true;
+                   
                 }
             }
-            let project = new Project(this.form.title.value);
-            Storage.addProject(project);
-            modalDiv.style.display="none";
-            let nav = UILoad.loadNavigation();
-            content.appendChild(nav);
-            UILoad.loadProject(project.getTitle());
+            if(projectExists){
+                alert("STOP! THIS PROJECT NAME ALREADY EXISTS");
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }else{
+                let project = new Project(form.title.value);
+                Storage.addProject(project);
+                modalDiv.style.display="none";
+                let nav = UILoad.loadNavigation();
+                content.appendChild(nav);
+                UILoad.loadProject(project.getTitle());
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+            
             
         });
         
