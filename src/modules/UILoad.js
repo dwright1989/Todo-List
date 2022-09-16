@@ -13,12 +13,15 @@ export default class UILoad{
         // Load Banner
         let banner = UILoad.loadBanner();
         // Load Navigation
+        Storage.loadTodayTasks();
         let navigation = UILoad.loadNavigation();
         // Load main/task content
         let mainContent = UILoad.loadMainContent();
         content.appendChild(banner);
         content.appendChild(navigation);
         //content.appendChild(mainContent); 
+
+        
     }
 
     static loadBanner(){
@@ -92,17 +95,22 @@ export default class UILoad{
         content.appendChild(mainContent);
         // Loop through projects and display all tasks
         let projects = Storage.getList().getProjects();
-        console.log("the projects: " + JSON.stringify(projects));
         
         for(let i=0; i<projects.length; i++){
-            UILoad.displayTasks(projects[i], "home");
+            if(projects[i].getTitle()!="Today"){
+                UILoad.displayTasks(projects[i], "home");
+            }
+           
         }     
     }
 
-
     static loadProject(projectTitle){
+        if(projectTitle=="Today"){
+            Storage.loadTodayTasks();
+        }
         let projects = Storage.getList().getProjects();
         let project = "";
+        console.log("projects: " + JSON.stringify(projects));
         for(let i=0; i<projects.length; i++){
             if(projects[i].getTitle()==projectTitle){
                 project = projects[i];
@@ -127,6 +135,7 @@ export default class UILoad{
 
 
     static displayTasks(project, page){
+       
         let tasks = Storage.getList().getProject(project.getTitle()).getTasks();
         let tasksDiv = document.getElementById("tasks");
         if(tasks.length==0 && page=="project"){

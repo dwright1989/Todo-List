@@ -13,7 +13,7 @@ export default class Project{
     }
 
     addTask(task){
-        
+        console.log("in the add tasks");
         this.tasks.push(task);
     }
 
