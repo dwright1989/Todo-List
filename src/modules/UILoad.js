@@ -103,8 +103,8 @@ export default class UILoad{
         }
         let tasksDiv = document.getElementById("tasks");
         tasksDiv.innerHTML= "";
-        let tasks = project.getTasks();
-        this.displayTasks(tasks);
+        //let tasks = project.getTasks();
+        this.displayTasks(project);
         let mainHeader = document.getElementById("mainContentHeading");
         mainHeader.innerHTML = projectTitle;
         let addTask = document.getElementById("addTask");
@@ -119,7 +119,8 @@ export default class UILoad{
     }
 
 
-    static displayTasks(tasks){
+    static displayTasks(project){
+        let tasks = project.getTasks();
         console.log("tasks " + JSON.stringify(tasks));
         let tasksDiv = document.getElementById("tasks");
         if(tasks.length==0){
@@ -170,6 +171,7 @@ export default class UILoad{
                     // GET PARENT ID FOR TASK TO DELETE AND CALL METHOD
                     console.log("delete button clicked");
                 });
+                taskElement.setAttribute("project-name", project.getTitle());
                 taskElement.appendChild(taskTitle);
                 taskElement.appendChild(deleteButton);
                 taskElement.appendChild(taskDescription);
@@ -223,13 +225,13 @@ export default class UILoad{
             modalDiv.id = "taskModal";
             modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span>
             <h2>Add Task</h2><form action="#" method="post" id="addTaskForm"><div id="formFields">
-            <label for="Title">Title:</label><input type="text" id="title" required>
-            Description:<textarea name="description" form="addTaskForm">Enter description here...</textarea>
-            Priority: <input type="radio" id="low" name="priority" value="low"><label for="low">Low</label><br>
+            <label for="Title">Title:</label><input type="text" id="title" required/>
+            Description:<textarea name="description" form="addTaskForm" required></textarea>
+            Priority: <input type="radio" id="low" name="priority" value="low" checked><label for="low">Low</label><br>
             <input type="radio" id="medium" name="priority" value="medium"><label for="medium">Medium</label><br>
             <input type="radio" id="high" name="priority" value="high"><label for="high">High</label>
             <label for="dueDate">Date Due:</label><br><input type="date" id="dueDate" name="dueDate">
-            <br></div><button type="button" id="submitTask"">Add</button></form></div>`;
+            <br></div><input type="submit" value="Submit"></form></div>`;
             content.appendChild(modalDiv);            
         }else{
             modalDiv.style.display="block";
@@ -238,14 +240,17 @@ export default class UILoad{
         span.onclick = function() {
             modalDiv.style.display = "none";
         }
+        let form = document.getElementById("addTaskForm");
 
-        let addButton = document.getElementById("submitTask");
-        addButton.addEventListener("click", function(){
-            let task = new Task(this.form.title.value, this.form.description.value, this.form.priority.value, this.form.dueDate.value);
+        form.addEventListener('submit', (event) => {
+            alert("event:   " + event);
+            let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value);
+            console.log("project title: " + project.getTitle());
             Storage.addTask(task, project.getTitle());
             modalDiv.style.display="none";
             UILoad.loadProject(project.getTitle());
+            event.preventDefault();
         });
-        
+
     }
 }

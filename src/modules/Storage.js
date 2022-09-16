@@ -26,9 +26,7 @@ export default class Storage {
       }
 
     static addTask(task, projectTitle) {
-        console.log("in storage add task");
         const list = Storage.getList();
-        
         list.getProject(projectTitle).addTask(task);
         Storage.saveList(list);
     }
