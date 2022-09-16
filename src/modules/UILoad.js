@@ -168,8 +168,8 @@ export default class UILoad{
                 deleteButton.classList.add("deleteTask");
                 deleteButton.innerHTML = "Delete Task";
                 deleteButton.addEventListener("click", function(){
-                    // GET PARENT ID FOR TASK TO DELETE AND CALL METHOD
-                    console.log("delete button clicked");
+                    Storage.deleteTask(tasks[j], project.getTitle());
+                    UILoad.loadProject(project.getTitle());
                 });
                 taskElement.setAttribute("project-name", project.getTitle());
                 taskElement.appendChild(taskTitle);
@@ -215,7 +215,7 @@ export default class UILoad{
                 }
             }
             if(projectExists){
-                alert("STOP! THIS PROJECT NAME ALREADY EXISTS");
+                alert("A task with this project already exists.  Please change the title.");
                 event.preventDefault();
                 event.stopImmediatePropagation();
             }else{
@@ -270,8 +270,9 @@ export default class UILoad{
                 }
             }
             if(taskExists){
-                alert("STOP TASK EXISTS");
+                alert("A task with this title already appears in this project.  Please change the title.");
                 event.preventDefault();
+                event.stopImmediatePropagation();
             }else{
                 let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value);
                 Storage.addTask(task, project.getTitle());

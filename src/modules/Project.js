@@ -23,6 +23,12 @@ export default class Project{
 
     removeTask(task){
         // find the task in the array and remove
+        let tasks = this.tasks;
+        for(let i=0; i<tasks.length; i++){
+            if(tasks[i].getTitle().toLowerCase()==task.getTitle().toLowerCase()){
+                tasks.splice(i,1);
+            }
+        }
     }
 
     setTasks(tasks){

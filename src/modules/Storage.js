@@ -32,4 +32,10 @@ export default class Storage {
         Storage.saveList(list);
     }
 
+    static deleteTask(task, projectTitle){
+      const list = Storage.getList();
+      list.getProject(projectTitle).removeTask(task);
+      Storage.saveList(list);
+    }
+
 }
