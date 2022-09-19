@@ -34,16 +34,13 @@ export default class Storage {
         
         // Does task need to be added to any other projects
         if(projectTitle!="Today" && projectTitle!="This Week"){
-          console.log("the project is not today or this week");
           let today = format(new Date(), 'yyyy-MM-dd');
           if(task.getDueDate()==today){
-            console.log("the due date is equal to today. About to add to the today project");
             // Add to today project
             list.getProject("Today").addTask(task);
           }
           let end = endOfWeek(new Date(), {weekStartsOn: 1});
           if(Date.parse(task.getDueDate())<Date.parse(end)){
-            console.log("the due date is this week. About to add to the this week project");
             // Add to this week project
             list.getProject("This Week").addTask(task);
           }
@@ -55,6 +52,18 @@ export default class Storage {
     static deleteTask(task, projectTitle){
       const list = Storage.getList();
       list.getProject(projectTitle).removeTask(task);
+      // Does task need to be deleted from any other projects
+      let projects = list.getProjects();
+      for(let i=0; i<projects.length; i++){
+        let tasks = projects[i].getTasks();
+        for(let j=0; j<tasks.length; j++){
+          let projectBeingSearched = projects[i].getTitle();
+          let currentTaskTitle = task.getTitle();
+          if(tasks[j].getTitle().toLowerCase == task.getTitle().toLowerCase){
+            projects[i].removeTask(task);
+          }
+        }
+      }
       Storage.saveList(list);
       UILoad.loadNavigation();
     }
