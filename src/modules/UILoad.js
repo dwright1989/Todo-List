@@ -15,14 +15,10 @@ export default class UILoad{
         // Load Navigation
         Storage.loadTodayTasks();
         Storage.loadWeeklyTasks();
-        let navigation = UILoad.loadNavigation();
+        UILoad.loadNavigation();
         // Load main/task content
         let mainContent = UILoad.loadMainContent();
         content.appendChild(banner);
-        content.appendChild(navigation);
-        //content.appendChild(mainContent); 
-
-        
     }
 
     static loadBanner(){
@@ -36,11 +32,13 @@ export default class UILoad{
     }
 
     static loadNavigation(){
+        console.log("in the load navigation");
         let nav = document.createElement("div");
         nav.id = "nav";
         let homeButton = document.createElement("p");
         homeButton.id = "homeButton";
         homeButton.innerHTML = "Home";
+   
         nav.appendChild(homeButton);
         homeButton.addEventListener("click", function(){
             UILoad.loadFullPage();
@@ -51,16 +49,24 @@ export default class UILoad{
         // Add the projects to the navigation bar
         let projects = Storage.getList().getProjects();
         for(var i = 0; i < projects.length; i++){
+            // Get total number of tasks for each project
+            let taskNumber = projects[i].getTasks().length;
+            console.log("taskNumber for tasks: " + projects[i].getTitle() + " is " + taskNumber);
+
+
             let projectLink = document.createElement("a");
             projectLink.classList.add("project-link");
             projectLink.id = "project" + projects[i].getTitle();
             projectLink.innerHTML = projects[i].getTitle();
+            let projectTasksNumber = document.createElement("p");
+            projectTasksNumber.innerHTML = taskNumber;
 
             // Add event listener to each project link
             projectLink.addEventListener("click", function(){
                 UILoad.loadProject(this.innerHTML);
             });
             projectsDiv.appendChild(projectLink);
+            projectsDiv.appendChild(projectTasksNumber);
         }
 
         let addProjectButton = document.createElement("a"); // need to add event listener
@@ -71,7 +77,7 @@ export default class UILoad{
         });
         projectsDiv.appendChild(addProjectButton);
         nav.appendChild(projectsDiv);
-        return nav;
+        content.appendChild(nav);
     }
 
     static loadMainContent(){
