@@ -14,6 +14,7 @@ export default class UILoad{
         let banner = UILoad.loadBanner();
         // Load Navigation
         Storage.loadTodayTasks();
+        Storage.loadWeeklyTasks();
         let navigation = UILoad.loadNavigation();
         // Load main/task content
         let mainContent = UILoad.loadMainContent();
@@ -97,7 +98,7 @@ export default class UILoad{
         let projects = Storage.getList().getProjects();
         
         for(let i=0; i<projects.length; i++){
-            if(projects[i].getTitle()!="Today"){
+            if(projects[i].getTitle()!="Today" && projects[i].getTitle()!="This Week"){
                 UILoad.displayTasks(projects[i], "home");
             }
            
@@ -107,10 +108,11 @@ export default class UILoad{
     static loadProject(projectTitle){
         if(projectTitle=="Today"){
             Storage.loadTodayTasks();
+        }else if(projectTitle=="This Week"){
+            Storage.loadWeeklyTasks();
         }
         let projects = Storage.getList().getProjects();
         let project = "";
-        console.log("projects: " + JSON.stringify(projects));
         for(let i=0; i<projects.length; i++){
             if(projects[i].getTitle()==projectTitle){
                 project = projects[i];
@@ -142,7 +144,6 @@ export default class UILoad{
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
         }else{
             for(let j=0; j<tasks.length; j++){
-                console.log("the task: " + JSON.stringify(tasks[j]));
 
                 let taskElement = document.createElement("div");
                 taskElement.classList.add("task");
@@ -289,6 +290,7 @@ export default class UILoad{
                 event.preventDefault();
                 event.stopImmediatePropagation();
             }else{
+                console.log("the due date in the form is: " + form.dueDate.value);
                 let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value);
                 Storage.addTask(task, project.getTitle());
                 modalDiv.style.display="none";

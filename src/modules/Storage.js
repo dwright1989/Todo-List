@@ -3,7 +3,7 @@
 import Project from './Project';
 import Task from './Task';
 import List from './List';
-import { compareAsc, format } from 'date-fns';
+import { compareAsc, format, endOfWeek } from 'date-fns';
 
 export default class Storage {
 
@@ -57,12 +57,9 @@ export default class Storage {
       for(let i=0; i<projects.length; i++){
         
          let tasks = projects[i].getTasks();
-         console.log("projects: " + JSON.stringify(tasks));
-         console.log("tasks: " + tasks.length);
          if(projects[i].getTitle()!="Today"){
             for(let j=0; j<tasks.length; j++){
               let dueDate = tasks[j].getDueDate();
-              console.log("This is task: " + j)
               if(dueDate==today){
                 todayProject.addTask(tasks[j]);
               }
@@ -76,5 +73,48 @@ export default class Storage {
 
 
     }
+
+    static loadWeeklyTasks(){
+      const list = Storage.getList();
+      let projects = list.getProjects();
+      // Get end of the week
+      let today = format(new Date(), 'yyyy-MM-dd');
+      let end = endOfWeek(new Date(), {weekStartsOn: 1});
+      // Check if today project exists
+      let thisWeekProject = list.getProject("This Week");
+      
+      if(thisWeekProject==null || thisWeekProject == ""){
+        thisWeekProject = new Project("This Week");
+        list.addProject(thisWeekProject);
+      }
+
+      thisWeekProject.setTasks([]);
+      //let thisWeekProject = Storage.getList().getProject("This Week");
+      
+      for(let i=0; i<projects.length; i++){
+        
+         let tasks = projects[i].getTasks();
+         if(projects[i].getTitle()!="This Week"){
+            for(let j=0; j<tasks.length; j++){
+              let dueDate = tasks[j].getDueDate();
+
+              console.log("this is task: " + tasks[j].getTitle());
+              console.log("this is the due date: " + dueDate);
+              console.log("This is the end date: " + end);
+              if(Date.parse(dueDate)<Date.parse(end)){
+                thisWeekProject.addTask(tasks[j]);
+              }
+            }
+         }
+         
+      }
+      
+      Storage.saveList(list);
+      console.log("this week project: " + JSON.stringify(thisWeekProject));
+      return thisWeekProject;
+
+
+    }
+
 
 }

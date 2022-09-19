@@ -14,7 +14,14 @@ export default class Project{
 
     addTask(task){
         console.log("in the add tasks");
-        this.tasks.push(task);
+        console.log("checking if the task exists");
+        if(!(this.taskExists(task))){
+            console.log("it doesn't");
+            this.tasks.push(task);
+        }else{
+            console.log("it does");
+        }
+        
     }
 
     getTasks(){
@@ -33,6 +40,17 @@ export default class Project{
 
     setTasks(tasks){
         this.tasks = tasks;
+    }
+
+    taskExists(task){
+        let exists = false;
+        for(let i=0; i<this.tasks.length; i++){
+            if(this.tasks[i].getTitle()==task.getTitle()){
+                exists = true;
+                break;
+            }
+        }
+        return exists;
     }
 
     /*
