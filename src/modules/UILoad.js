@@ -132,7 +132,10 @@ export default class UILoad{
         addTaskBtn.addEventListener("click", function(){
             UILoad.createAddTaskModal(project);
         });        
-        addTask.appendChild(addTaskBtn);
+        
+        if(projectTitle!="This Week" && projectTitle!="Today"){
+            addTask.appendChild(addTaskBtn);
+        }
     }
 
 

@@ -13,15 +13,9 @@ export default class Project{
     }
 
     addTask(task){
-        console.log("in the add tasks");
-        console.log("checking if the task exists");
         if(!(this.taskExists(task))){
-            console.log("it doesn't");
             this.tasks.push(task);
-        }else{
-            console.log("it does");
-        }
-        
+        }        
     }
 
     getTasks(){

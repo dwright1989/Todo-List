@@ -97,10 +97,6 @@ export default class Storage {
          if(projects[i].getTitle()!="This Week"){
             for(let j=0; j<tasks.length; j++){
               let dueDate = tasks[j].getDueDate();
-
-              console.log("this is task: " + tasks[j].getTitle());
-              console.log("this is the due date: " + dueDate);
-              console.log("This is the end date: " + end);
               if(Date.parse(dueDate)<Date.parse(end)){
                 thisWeekProject.addTask(tasks[j]);
               }
@@ -110,7 +106,6 @@ export default class Storage {
       }
       
       Storage.saveList(list);
-      console.log("this week project: " + JSON.stringify(thisWeekProject));
       return thisWeekProject;
 
 
