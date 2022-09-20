@@ -129,21 +129,49 @@
 /*--------TASKS---------*/
 .task{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 2fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 4fr;
     border: 1px solid black;
    
 }
 
-.deleteTask{
-    grid-area: 1/2/2/3;
-    width: 10%;
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:1fr;
+}
+
+.title{
+    grid-area: 1/1/2/2;
+}
+
+.dueDate{
+    grid-area:1/2/2/3;
+}
+
+.summaryButtons{
+    grid-area:1/3/2/4;
+    display:flex;
+}
+
+.details{
+    display:grid;
+    grid-template-columns:3fr 1fr;
+    grid-template-rows:repeat(2, 1fr);
 }
 
 .description{
-    grid-area: 2/1/3/3;
-    border-top: 1px solid black;
+    grid-area:1/1/3/2;
 }
+
+.priority{
+    grid-area:1/2/2/3;
+}
+
+.isComplete{
+    grid-area:2/2/3/3;
+}
+
 
 .complete{
     text-decoration: line-through;

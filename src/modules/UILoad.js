@@ -141,22 +141,58 @@ export default class UILoad{
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
         }else{
             for(let j=0; j<tasks.length; j++){
-
                 let taskElement = document.createElement("div");
                 taskElement.classList.add("task");
-                // Add Title
+                // Create the basic summary
+                let summaryDiv = document.createElement("div");
+                summaryDiv.classList.add("summary");
                 let taskTitle = document.createElement("div");
                 taskTitle.classList.add("title");
                 taskTitle.innerHTML = tasks[j].getTitle();
-                // Add description
-                let taskDescription = document.createElement("div");
-                taskDescription.classList.add("description");
-                taskDescription.innerHTML = tasks[j].getDescription();
-                // Add due date
                 let taskDueDate = document.createElement("div");
                 taskDueDate.classList.add("dueDate");
                 taskDueDate.classList.add(tasks[j].getPriority());
                 taskDueDate.innerHTML = tasks[j].getDueDate();
+                //Buttons
+                let summaryButtons = document.createElement("div");
+                summaryButtons.classList.add("summaryButtons");
+                let showDetails = document.createElement("div");
+                showDetails.classList.add("showDetails");
+                let showDetailsButton = document.createElement("a");
+                showDetailsButton.innerHTML = "Show Details";
+
+                let editButton = document.createElement("div"); 
+                editButton.classList.add("editTask");
+                editButton.innerHTML = "Edit";
+
+                let deleteButton = document.createElement("div"); 
+                deleteButton.classList.add("deleteTask");
+                deleteButton.innerHTML = "Delete";
+
+                summaryButtons.appendChild(showDetailsButton);
+                summaryButtons.appendChild(deleteButton);
+                summaryButtons.appendChild(editButton);
+                // Add event listeners for 
+                // show details
+                // edit task
+                // delete task
+
+
+                summaryDiv.appendChild(taskTitle);
+                summaryDiv.appendChild(taskDueDate);
+                summaryDiv.appendChild(summaryButtons);
+
+                // Create the details
+                let detailsDiv = document.createElement("div");
+                detailsDiv.classList.add("details");
+                let taskDescription = document.createElement("div");
+                taskDescription.classList.add("description");
+                taskDescription.innerHTML = tasks[j].getDescription();
+                
+                let priorityDiv = document.createElement("div");
+                priorityDiv.classList.add("priority");
+                priorityDiv.innerHTML = "Priority: " + tasks[j].getPriority();
+
                 // Add iscompleted 
                 let isComplete = document.createElement("div");
                 isComplete.classList.add("isComplete");
@@ -172,8 +208,7 @@ export default class UILoad{
                     completeCheckbox.checked = false;
                     taskElement.classList.remove("complete");
                 }
-                
-                console.log(completeCheckbox.checked);
+
                 completeCheckbox.addEventListener("change", function(){
                     // get if checked
                     if(this.checked){
@@ -187,20 +222,14 @@ export default class UILoad{
                     UILoad.loadNavigation();
                 });
                 isComplete.appendChild(completeCheckbox);
-                // Add delete button
-                let deleteButton = document.createElement("div"); 
-                deleteButton.classList.add("deleteTask");
-                deleteButton.innerHTML = "Delete Task";
-                deleteButton.addEventListener("click", function(){
-                    Storage.deleteTask(tasks[j], project.getTitle());
-                    UILoad.loadProject(project.getTitle());
-                });
+
+                detailsDiv.appendChild(taskDescription);
+                detailsDiv.appendChild(priorityDiv);
+                detailsDiv.appendChild(isComplete);
+
                 taskElement.setAttribute("project-name", project.getTitle());
-                taskElement.appendChild(taskTitle);
-                taskElement.appendChild(deleteButton);
-                taskElement.appendChild(taskDescription);
-                taskElement.appendChild(taskDueDate);
-                taskElement.appendChild(isComplete);
+                taskElement.appendChild(summaryDiv);
+                taskElement.appendChild(detailsDiv);
                 tasksDiv.appendChild(taskElement);
             }
         }
