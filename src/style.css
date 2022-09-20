@@ -182,15 +182,14 @@ a:hover{
 .task{
     display: grid;
     grid-template-columns: 1fr;
-    background-color: var(--colorOne);
     margin-bottom: 0.09rem;
-   padding: 0.5rem;
 }
 
 .summary{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     grid-template-rows:1fr;
+    background-color: var(--colorOne);
 }
 
 .title{
@@ -216,18 +215,24 @@ a:hover{
     grid-template-columns:3fr 1fr;
     grid-template-rows:repeat(2, 1fr);
     display: none;
+    background-color: var(--secondary-color);
+    font-size: 0.8rem;
 }
 
 .description{
     grid-area:1/1/3/2;
+    padding: 3rem;
 }
 
 .priority{
     grid-area:1/2/2/3;
+    align-self: center;
+    padding: 1rem;
 }
 
 .isComplete{
     grid-area:2/2/3/3;
+    padding: 1rem;
 }
 
 
