@@ -13,8 +13,6 @@ export default class UILoad{
         // Load Banner
         let banner = UILoad.loadBanner();
         // Load Navigation
-        Storage.loadTodayTasks();
-        Storage.loadWeeklyTasks();
         UILoad.loadNavigation();
         // Load main/task content
         UILoad.loadMainContent();
@@ -104,20 +102,11 @@ export default class UILoad{
         let projects = Storage.getList().getProjects();
         
         for(let i=0; i<projects.length; i++){
-            if(projects[i].getTitle()!="Today" && projects[i].getTitle()!="This Week"){
-                UILoad.displayTasks(projects[i], "home");
-            }
-           
+                UILoad.displayTasks(projects[i], "home");           
         }     
     }
 
     static loadProject(projectTitle){
-        console.log("loading project: " + projectTitle);
-        if(projectTitle=="Today"){
-            Storage.loadTodayTasks();
-        }else if(projectTitle=="This Week"){
-            Storage.loadWeeklyTasks();
-        }
         let projects = Storage.getList().getProjects();
         let project = "";
         for(let i=0; i<projects.length; i++){
@@ -127,7 +116,6 @@ export default class UILoad{
         }
         let tasksDiv = document.getElementById("tasks");
         tasksDiv.innerHTML= "";
-        //let tasks = project.getTasks();
         this.displayTasks(project, "project");
         let mainHeader = document.getElementById("mainContentHeading");
         mainHeader.innerHTML = projectTitle;
@@ -139,10 +127,7 @@ export default class UILoad{
         addTaskBtn.addEventListener("click", function(){
             UILoad.createAddTaskModal(project);
         });        
-        
-        if(projectTitle!="This Week" && projectTitle!="Today"){
-            addTask.appendChild(addTaskBtn);
-        }
+        addTask.appendChild(addTaskBtn);
     }
 
 
