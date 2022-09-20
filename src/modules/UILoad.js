@@ -17,7 +17,7 @@ export default class UILoad{
         Storage.loadWeeklyTasks();
         UILoad.loadNavigation();
         // Load main/task content
-        let mainContent = UILoad.loadMainContent();
+        UILoad.loadMainContent();
         content.appendChild(banner);
     }
 
@@ -112,6 +112,7 @@ export default class UILoad{
     }
 
     static loadProject(projectTitle){
+        console.log("loading project: " + projectTitle);
         if(projectTitle=="Today"){
             Storage.loadTodayTasks();
         }else if(projectTitle=="This Week"){
@@ -146,8 +147,8 @@ export default class UILoad{
 
 
     static displayTasks(project, page){
-       
-        let tasks = Storage.getList().getProject(project.getTitle()).getTasks();
+        let list = Storage.getList();
+        let tasks = list.getProject(project.getTitle()).getTasks();
         let tasksDiv = document.getElementById("tasks");
         if(tasks.length==0 && page=="project"){
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
@@ -176,6 +177,16 @@ export default class UILoad{
                 // Add check box
                 let completeCheckbox = document.createElement("input");
                 completeCheckbox.setAttribute("type", "checkbox");
+                // If task already complete, set checkbox and class
+                if(tasks[j].isComplete){
+                    completeCheckbox.checked = true;
+                    taskElement.classList.add("complete");
+                }else{
+                    completeCheckbox.checked = false;
+                    taskElement.classList.remove("complete");
+                }
+                
+                console.log(completeCheckbox.checked);
                 completeCheckbox.addEventListener("change", function(){
                     // get if checked
                     if(this.checked){
@@ -185,6 +196,7 @@ export default class UILoad{
                         tasks[j].setIsComplete(false);
                         taskElement.classList.remove("complete");
                     }
+                    Storage.saveList(list);
                     
                 });
                 isComplete.appendChild(completeCheckbox);
@@ -247,8 +259,7 @@ export default class UILoad{
                 let project = new Project(form.title.value);
                 Storage.addProject(project);
                 modalDiv.style.display="none";
-                let nav = UILoad.loadNavigation();
-                content.appendChild(nav);
+                UILoad.loadNavigation();
                 UILoad.loadProject(project.getTitle());
                 event.preventDefault();
                 event.stopImmediatePropagation();
@@ -300,7 +311,7 @@ export default class UILoad{
                 event.stopImmediatePropagation();
             }else{
                 console.log("the due date in the form is: " + form.dueDate.value);
-                let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value);
+                let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value, false);
                 Storage.addTask(task, project.getTitle());
                 modalDiv.style.display="none";
                 UILoad.loadProject(project.getTitle());

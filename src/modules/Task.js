@@ -40,9 +40,11 @@ export default class Task{
     }
 
     setIsComplete(isComplete){
+        console.log("setting is complete to: " + isComplete);
         if(isComplete==null || isComplete==""){
             this.isComplete = false;
         }else{
+            console.log("in the else setting the isComplete");
             this.isComplete = isComplete;
         }
     }
