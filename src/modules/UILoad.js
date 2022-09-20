@@ -41,6 +41,9 @@ export default class UILoad{
             UILoad.loadFullPage();
         });
 
+        let projectsSectionTitle = document.createElement("p");
+        projectsSectionTitle.innerHTML = "Projects";
+        nav.appendChild(projectsSectionTitle);
         let projectsDiv = document.createElement("div");
         projectsDiv.id = "projects";
         // Add the projects to the navigation bar
@@ -56,7 +59,7 @@ export default class UILoad{
             }
             
             let projectLink = document.createElement("a");
-            projectLink.classList.add("project-link");
+            projectLink.classList.add("projectLink");
             projectLink.id = "project" + projects[i].getTitle();
             projectLink.innerHTML = projects[i].getTitle();
             let projectTasksNumber = document.createElement("p");
@@ -164,24 +167,23 @@ export default class UILoad{
                 showDetails.classList.add("showDetails");
                 let showDetailsButton = document.createElement("a");
                 showDetailsButton.innerHTML = "Show Details";
+                showDetails.appendChild(showDetailsButton);
 
-                let editButton = document.createElement("div"); 
-                editButton.classList.add("editTask");
+                let edit = document.createElement("div"); 
+                edit.classList.add("editTask");
+                let editButton = document.createElement("a");
                 editButton.innerHTML = "Edit";
+                edit.appendChild(editButton);
 
-                let deleteButton = document.createElement("div"); 
-                deleteButton.classList.add("deleteTask");
+                let deleteTask = document.createElement("div"); 
+                deleteTask.classList.add("deleteTask");
+                let deleteButton = document.createElement("a");
                 deleteButton.innerHTML = "Delete";
+                deleteTask.appendChild(deleteButton);
 
-                summaryButtons.appendChild(showDetailsButton);
-                summaryButtons.appendChild(deleteButton);
-                summaryButtons.appendChild(editButton);
-                // Add event listeners for 
-                // show details
-                // edit task
-                // delete task
-
-
+                summaryButtons.appendChild(showDetails);
+                summaryButtons.appendChild(deleteTask);
+                summaryButtons.appendChild(edit);
                 summaryDiv.appendChild(taskTitle);
                 summaryDiv.appendChild(taskDueDate);
                 summaryDiv.appendChild(summaryButtons);
@@ -235,6 +237,28 @@ export default class UILoad{
                 taskElement.appendChild(summaryDiv);
                 taskElement.appendChild(detailsDiv);
                 tasksDiv.appendChild(taskElement);
+
+                // Add event listeners for 
+                // show details
+                showDetailsButton.addEventListener("click", function(){
+                    console.log("show details was clicked");
+                    if(showDetailsButton.innerHTML=="Show Details"){
+                        showDetailsButton.innerHTML="Hide Details";
+                        detailsDiv.style.display = "grid";
+                        
+                    }else{
+                        showDetailsButton.innerHTML="Show Details";
+                        detailsDiv.style.display = "none";
+                    }
+                });
+                // edit task
+                deleteTask.addEventListener("click", function(){
+                    console.log("delete was clicked");
+                });
+                // delete task
+                edit.addEventListener("click", function(){
+                    console.log("edit was clicked");
+                });
             }
         }
         
