@@ -54,12 +54,16 @@ export default class UILoad{
                     taskNumber++;
                 }
             }
+            
             let projectLink = document.createElement("a");
             projectLink.classList.add("project-link");
             projectLink.id = "project" + projects[i].getTitle();
             projectLink.innerHTML = projects[i].getTitle();
             let projectTasksNumber = document.createElement("p");
             projectTasksNumber.innerHTML = taskNumber;
+            if(taskNumber>0){
+                projectTasksNumber.classList.add("todo");
+            }
 
             // Add event listener to each project link
             projectLink.addEventListener("click", function(){
@@ -85,7 +89,7 @@ export default class UILoad{
         let mainContent = document.createElement("div");
         mainContent.id = "mainContent";
         let heading = document.createElement("h2");
-        heading.innerHTML = "Home";
+        heading.innerHTML = "Home - all tasks";
         heading.id = "mainContentHeading";
         mainContent.appendChild(heading);
         /*let keyDiv = document.createElement("div");

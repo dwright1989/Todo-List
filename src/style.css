@@ -76,6 +76,10 @@ h1, h2{
     gap: 0.5rem;
 }
 
+.todo{
+    color: red;
+}
+
 /*--------MAIN---------*/
 
 #mainContent{
@@ -84,7 +88,7 @@ h1, h2{
     grid-area: 2/2/6/5;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: 1fr 1fr 5fr;
+    grid-template-rows: 5% 5% 90%;
 }
 
 #mainContentHeading{
@@ -95,9 +99,10 @@ h1, h2{
 
 #tasks{
     grid-area: 3/1/7/3;
-    margin: auto;
     width: 80%;
     padding-bottom: 3rem;
+    justify-self: center;
+    margin-top: 5rem;
 }
 
 #key{
@@ -160,9 +165,9 @@ h1, h2{
 .task{
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 4fr;
-    border: 1px solid black;
-   
+    background-color: var(--colorOne);
+    margin-bottom: 0.09rem;
+   padding: 0.5rem;
 }
 
 .summary{
@@ -173,6 +178,7 @@ h1, h2{
 
 .title{
     grid-area: 1/1/2/2;
+    padding-left: 2rem;
 }
 
 .dueDate{
@@ -182,12 +188,14 @@ h1, h2{
 .summaryButtons{
     grid-area:1/3/2/4;
     display:flex;
+    justify-content: space-evenly;
 }
 
 .details{
     display:grid;
     grid-template-columns:3fr 1fr;
     grid-template-rows:repeat(2, 1fr);
+    display: none;
 }
 
 .description{
