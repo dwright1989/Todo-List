@@ -30,7 +30,6 @@ export default class UILoad{
     }
 
     static loadNavigation(){
-        console.log("in the load navigation");
         let nav = document.createElement("div");
         nav.id = "nav";
         let homeButton = document.createElement("p");
@@ -46,12 +45,15 @@ export default class UILoad{
         projectsDiv.id = "projects";
         // Add the projects to the navigation bar
         let projects = Storage.getList().getProjects();
-        for(var i = 0; i < projects.length; i++){
-            // Get total number of tasks for each project
-            let taskNumber = projects[i].getTasks().length;
-            console.log("taskNumber for tasks: " + projects[i].getTitle() + " is " + taskNumber);
-
-
+        for(let i = 0; i < projects.length; i++){
+            // Get total number of tasks for each project (get only the uncompleted tasks)
+            let tasks = projects[i].getTasks();
+            let taskNumber = 0;
+            for(let j = 0; j<tasks.length; j++){
+                if(!(tasks[j].isComplete)){
+                    taskNumber++;
+                }
+            }
             let projectLink = document.createElement("a");
             projectLink.classList.add("project-link");
             projectLink.id = "project" + projects[i].getTitle();
@@ -182,7 +184,7 @@ export default class UILoad{
                         taskElement.classList.remove("complete");
                     }
                     Storage.saveList(list);
-                    
+                    UILoad.loadNavigation();
                 });
                 isComplete.appendChild(completeCheckbox);
                 // Add delete button
