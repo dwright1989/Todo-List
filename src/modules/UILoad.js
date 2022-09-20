@@ -88,10 +88,10 @@ export default class UILoad{
         heading.innerHTML = "Home";
         heading.id = "mainContentHeading";
         mainContent.appendChild(heading);
-        let keyDiv = document.createElement("div");
+        /*let keyDiv = document.createElement("div");
         keyDiv.id = "key";
         keyDiv.innerHTML = '<h3>Priority Key</h3><span class="low">Low </span><span class="medium">Medium </span><span class="high">High</span>';
-        mainContent.appendChild(keyDiv);
+        mainContent.appendChild(keyDiv);*/
         let addTask = document.createElement("div");
         addTask.id="addTask";
         mainContent.appendChild(addTask);
