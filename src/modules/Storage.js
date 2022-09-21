@@ -41,9 +41,7 @@ export default class Storage {
       let projects = list.getProjects();
       for(let i=0; i<projects.length; i++){
         let tasks = projects[i].getTasks();
-        for(let j=0; j<tasks.length; j++){
-          let projectBeingSearched = projects[i].getTitle();
-          let currentTaskTitle = task.getTitle();
+        for(let j=0; j<tasks.length; j++){s
           if(tasks[j].getTitle().toLowerCase == task.getTitle().toLowerCase){
             projects[i].removeTask(task);
           }
@@ -51,6 +49,19 @@ export default class Storage {
       }
       Storage.saveList(list);
       UILoad.loadNavigation();
+    }
+
+    static editTask(projectName, oldTaskTitle, newTask){
+        const list = Storage.getList();
+        let theProject = list.getProject(projectName)
+        let tasks = theProject.getTasks();
+        for(let i=0; i<tasks.length; i++){
+          if(tasks[i].getTitle()==oldTaskTitle){
+            theProject.replaceTask(tasks[i], newTask);
+          }
+        }
+        Storage.saveList(list);
+        UILoad.loadNavigation();
     }
 
 

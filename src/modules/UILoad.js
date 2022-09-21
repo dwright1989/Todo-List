@@ -115,23 +115,21 @@ export default class UILoad{
         let projects = Storage.getList().getProjects();
         
         for(let i=0; i<projects.length; i++){
-                UILoad.displayTasks(projects[i], "home");           
+            UILoad.displayTasks(projects[i], "home");           
         }     
     }
 
     static loadProject(projectTitle){
-        console.log("we want to load page: " + projectTitle);
         let projects = Storage.getList().getProjects();
         let project = "";
         for(let i=0; i<projects.length; i++){
             if(projects[i].getTitle()==projectTitle){
                 project = projects[i];
-                console.log("we are going to load page: " + projects[i].getTitle());
             }
         }
         let tasksDiv = document.getElementById("tasks");
         tasksDiv.innerHTML= "";
-        this.displayTasks(project, "project");
+        UILoad.displayTasks(project, "project");
         let mainHeader = document.getElementById("mainContentHeading");
         mainHeader.innerHTML = projectTitle;
         let addTask = document.getElementById("addTask");
@@ -157,7 +155,7 @@ export default class UILoad{
             tasksDiv.classList.add("border");
             for(let j=0; j<tasks.length; j++){
                 
-                let taskElement = this.displayTask(tasks[j], project);
+                let taskElement = UILoad.displayTask(tasks[j], project);
                 
                 UILoad.addTaskEventListeners(taskElement, tasks[j], project.getTitle(), page);
 
@@ -171,8 +169,8 @@ export default class UILoad{
                 let taskElement = document.createElement("div");
                 taskElement.classList.add("task");
                 // Create the basic summary
-                let summaryDiv = this.createSummary(task);
-                let detailsDiv = this.createDetails(task, project, taskElement);
+                let summaryDiv = UILoad.createSummary(task);
+                let detailsDiv = UILoad.createDetails(task, project, taskElement);
 
                 
                 taskElement.setAttribute("project-name", project.getTitle());
@@ -286,7 +284,6 @@ export default class UILoad{
 
                 // show details
                 showDetailsButton.addEventListener("click", function(){
-                    console.log("show details was clicked");
                     if(showDetailsButton.innerHTML=="Show Details"){
                         showDetailsButton.innerHTML="Hide Details";
                         detailsDiv.style.display = "grid";
@@ -307,8 +304,69 @@ export default class UILoad{
                 });
                 // edit task
                 edit.addEventListener("click", function(){
-                    console.log("edit was clicked");
+                    UILoad.createEditTaskModel(task, projectTitle);
                 });
+    }
+
+    static createEditTaskModel(task, projectTitle){
+        let modalDiv = document.getElementById("taskEditModal");
+        if(modalDiv!=null && modalDiv!=""){
+            modalDiv.remove();
+        }
+        modalDiv = document.createElement("div");
+        modalDiv.id = "taskEditModal";
+        modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span>
+        <h2>Edit Task</h2><form action="#" method="post" id="editTaskForm"><div id="formFields">
+        <label for="Title">Title:</label><input type="text" id="title" value="`+task.getTitle()+`"required/>
+        Description:<textarea name="description" form="editTaskForm"  value="`+task.getDescription()+`" required>`+task.getDescription()+`</textarea>
+        Priority: <input type="radio" id="low" name="priority" value="`+task.getPriority()+`" checked><label for="low">Low</label><br>
+        <input type="radio" id="medium" name="priority" value="medium"><label for="medium">Medium</label><br>
+        <input type="radio" id="high" name="priority" value="high"><label for="high">High</label>
+        <label for="dueDate">Date Due:</label><br><input type="date" id="dueDate" name="dueDate" value="`+task.getDueDate()+`">
+        <input type="hidden" id="project" name="project" value="`+projectTitle+`">
+        <br></div><input type="submit" value="Submit"></form></div>`;
+        content.appendChild(modalDiv);            
+        
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() {
+            modalDiv.style.display = "none";
+        }
+        let form = document.getElementById("editTaskForm");
+
+        form.addEventListener('submit', (event) => {
+            let taskExists = false;
+            let list = Storage.getList();
+            let tasks = list.getProject(projectTitle).getTasks();
+            for(let i=0; i<tasks.length; i++){
+                if(tasks[i].getTitle().toLowerCase() == form.title.value.toLowerCase()){
+                    if(form.title.value.toLowerCase()!=task.getTitle().toLowerCase()){
+                        taskExists = true;
+                    }
+                    
+                }
+            }
+            if(taskExists){
+                alert("A task with this title already appears in this project.  Please change the title.");
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }else{
+                let originalTaskTitle = task.getTitle();
+                // set title
+                task.setTitle(form.title.value);
+                // set description
+                task.setDescription(form.description.value);
+                // set due date
+                task.setDueDate(form.dueDate.value);
+                // set priority
+                task.setPriority(form.priority.value);
+                Storage.editTask(projectTitle, originalTaskTitle, task);
+                modalDiv.style.display="none";
+                UILoad.loadProject(form.project.value);
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+            
+        });
     }
     
     static createAddProjectModal(){
@@ -362,7 +420,6 @@ export default class UILoad{
     }
 
     static createAddTaskModal(project){
-        console.log("creating the task model for project: " + project.getTitle());
         let modalDiv = document.getElementById("taskModal")
         if(modalDiv==null || modalDiv==""){
             modalDiv = document.createElement("div");
@@ -391,7 +448,6 @@ export default class UILoad{
         let form = document.getElementById("addTaskForm");
 
         form.addEventListener('submit', (event) => {
-            console.log("event listener for project: " + project.getTitle());
             let taskExists = false;
             let tasks = Storage.getList().getProject(project.getTitle()).getTasks();
             for(let i=0; i<tasks.length; i++){

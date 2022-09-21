@@ -1,3 +1,5 @@
+import Task from "./Task";
+
 export default class Project{
     constructor(title){
         this.title = title;
@@ -45,6 +47,11 @@ export default class Project{
             }
         }
         return exists;
+    }
+
+    replaceTask(oldTask, newTask){
+        let arrayIndex = this.tasks.indexOf(oldTask);
+        this.tasks[arrayIndex] = newTask;
     }
 
     /*
