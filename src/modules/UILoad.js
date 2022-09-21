@@ -187,7 +187,7 @@ export default class UILoad{
                 taskTitle.innerHTML = task.getTitle();
                 let taskDueDate = document.createElement("div");
                 taskDueDate.classList.add("dueDate");
-                taskDueDate.classList.add(task.getPriority());
+                
                 taskDueDate.innerHTML = task.getDueDate();
                 //Buttons
                 let summaryButtons = document.createElement("div");
@@ -236,7 +236,7 @@ export default class UILoad{
         
         let priorityDiv = document.createElement("div");
         priorityDiv.classList.add("priority");
-        priorityDiv.innerHTML = "Priority: " + task.getPriority();
+        priorityDiv.innerHTML = "Priority: <p class='"+task.getPriority().toLowerCase()+"'>" + task.getPriority() + "</p>";
 
         // Add iscompleted 
         let isComplete = document.createElement("div");
