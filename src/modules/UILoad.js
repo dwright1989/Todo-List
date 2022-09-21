@@ -152,7 +152,9 @@ export default class UILoad{
         let tasksDiv = document.getElementById("tasks");
         if(tasks.length==0 && page=="project"){
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
+            tasksDiv.classList.remove("border");
         }else{
+            tasksDiv.classList.add("border");
             for(let j=0; j<tasks.length; j++){
                 let taskElement = document.createElement("div");
                 taskElement.classList.add("task");
@@ -173,6 +175,7 @@ export default class UILoad{
                 showDetails.classList.add("showDetails");
                 let showDetailsButton = document.createElement("a");
                 showDetailsButton.innerHTML = "Show Details";
+                showDetailsButton.classList.add("showDetailsButton");
                 showDetails.appendChild(showDetailsButton);
 
                 let edit = document.createElement("div"); 
@@ -200,6 +203,11 @@ export default class UILoad{
                 let taskDescription = document.createElement("div");
                 taskDescription.classList.add("description");
                 taskDescription.innerHTML = tasks[j].getDescription();
+
+                let projectTitle = document.createElement("div");
+                projectTitle.innerHTML = "Project: " + project.getTitle();
+                projectTitle.classList.add("projectTitleDiv");
+                
                 
                 let priorityDiv = document.createElement("div");
                 priorityDiv.classList.add("priority");
@@ -236,15 +244,29 @@ export default class UILoad{
                 isComplete.appendChild(completeCheckbox);
 
                 detailsDiv.appendChild(taskDescription);
+                detailsDiv.appendChild(projectTitle);
                 detailsDiv.appendChild(priorityDiv);
                 detailsDiv.appendChild(isComplete);
 
                 taskElement.setAttribute("project-name", project.getTitle());
                 taskElement.appendChild(summaryDiv);
                 taskElement.appendChild(detailsDiv);
-                tasksDiv.appendChild(taskElement);
+                UILoad.addTaskEventListeners(taskElement, tasks[j], project.getTitle(), page); // *******
 
-                // Add event listeners for 
+                tasksDiv.appendChild(taskElement);
+            }
+        }
+        
+    }
+
+    static addTaskEventListeners(taskElem, task, projectTitle, page){
+                let detailsDiv = taskElem.querySelector('.details');
+                let summary = taskElem.querySelector('.summary');
+                let summaryButton = summary.querySelector('.summaryButtons');
+                let showDetailsButton = summaryButton.querySelector('.showDetailsButton');
+                let deleteTask = summaryButton.querySelector('.deleteTask');
+                let edit = summaryButton.querySelector('.editTask');
+
                 // show details
                 showDetailsButton.addEventListener("click", function(){
                     console.log("show details was clicked");
@@ -259,20 +281,17 @@ export default class UILoad{
                 });
                 // delete task
                 deleteTask.addEventListener("click", function(){
-                    Storage.deleteTask(tasks[j], project.getTitle());
+                    Storage.deleteTask(task, projectTitle);
                     if(page.toLowerCase()=="home"){
                         UILoad.loadFullPage();
                     }else{
-                        UILoad.loadProject(project.getTitle());
+                        UILoad.loadProject(projectTitle);
                     }
                 });
                 // edit task
                 edit.addEventListener("click", function(){
                     console.log("edit was clicked");
                 });
-            }
-        }
-        
     }
     
     static createAddProjectModal(){
