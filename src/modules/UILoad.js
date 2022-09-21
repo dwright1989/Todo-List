@@ -222,6 +222,7 @@ export default class UILoad{
 
     static createDetails(task, project, taskElement){
         // Create the details
+        
         let detailsDiv = document.createElement("div");
         detailsDiv.classList.add("details");
         let taskDescription = document.createElement("div");
@@ -257,12 +258,14 @@ export default class UILoad{
             // get if checked
             if(this.checked){
                 task.setIsComplete(true);
+                Storage.setTaskCompleted(project.getTitle(), task, true);
                 taskElement.classList.add("complete");
             }else{
                 task.setIsComplete(false);
+                Storage.setTaskCompleted(project.getTitle(), task, false);
                 taskElement.classList.remove("complete");
             }
-            Storage.saveList(list);
+           
             UILoad.loadNavigation();
         });
         isComplete.appendChild(completeCheckbox);

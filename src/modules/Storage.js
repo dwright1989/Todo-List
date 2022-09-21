@@ -64,6 +64,12 @@ export default class Storage {
         UILoad.loadNavigation();
     }
 
+    static setTaskCompleted(projectTitle, task, isComplete) {
+      const list = Storage.getList();
+      list.getProject(projectTitle).getTask(task).setIsComplete(isComplete);
+      Storage.saveList(list);
+    }
+
 
 
 

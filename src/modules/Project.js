@@ -20,6 +20,20 @@ export default class Project{
         }        
     }
 
+    getTask(task){
+        let tasks = this.getTasks();
+
+        
+        for(let i=0; this.tasks.length; i++){
+            console.log("this task: " + JSON.stringify(tasks[i]));
+            if(tasks[i].getTitle().toLowerCase==task.getTitle().toLowerCase){
+                return tasks[i];
+            }
+        }
+        
+
+        
+    }
     getTasks(){
         return this.tasks;
     }
