@@ -120,11 +120,13 @@ export default class UILoad{
     }
 
     static loadProject(projectTitle){
+        console.log("we want to load page: " + projectTitle);
         let projects = Storage.getList().getProjects();
         let project = "";
         for(let i=0; i<projects.length; i++){
             if(projects[i].getTitle()==projectTitle){
                 project = projects[i];
+                console.log("we are going to load page: " + projects[i].getTitle());
             }
         }
         let tasksDiv = document.getElementById("tasks");
@@ -324,6 +326,7 @@ export default class UILoad{
     }
 
     static createAddTaskModal(project){
+        console.log("creating the task model for project: " + project.getTitle());
         let modalDiv = document.getElementById("taskModal")
         if(modalDiv==null || modalDiv==""){
             modalDiv = document.createElement("div");
@@ -336,11 +339,13 @@ export default class UILoad{
             <input type="radio" id="medium" name="priority" value="medium"><label for="medium">Medium</label><br>
             <input type="radio" id="high" name="priority" value="high"><label for="high">High</label>
             <label for="dueDate">Date Due:</label><br><input type="date" id="dueDate" name="dueDate">
+            <input type="hidden" id="project" name="project" value="`+project.getTitle()+`">
             <br></div><input type="submit" value="Submit"></form></div>`;
             content.appendChild(modalDiv);            
         }else{
             modalDiv.style.display="block";
             let form = document.getElementById("addTaskForm");
+            form.project.value = project.getTitle();
             form.reset();
         }
         var span = document.getElementsByClassName("close")[0];
@@ -350,7 +355,7 @@ export default class UILoad{
         let form = document.getElementById("addTaskForm");
 
         form.addEventListener('submit', (event) => {
-
+            console.log("event listener for project: " + project.getTitle());
             let taskExists = false;
             let tasks = Storage.getList().getProject(project.getTitle()).getTasks();
             for(let i=0; i<tasks.length; i++){
@@ -363,11 +368,10 @@ export default class UILoad{
                 event.preventDefault();
                 event.stopImmediatePropagation();
             }else{
-                console.log("the due date in the form is: " + form.dueDate.value);
                 let task = new Task(form.title.value, form.description.value, form.priority.value, form.dueDate.value, false);
-                Storage.addTask(task, project.getTitle());
+                Storage.addTask(task, form.project.value);
                 modalDiv.style.display="none";
-                UILoad.loadProject(project.getTitle());
+                UILoad.loadProject(form.project.value);
                 event.preventDefault();
                 event.stopImmediatePropagation();
             }
