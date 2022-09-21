@@ -156,6 +156,18 @@ export default class UILoad{
         }else{
             tasksDiv.classList.add("border");
             for(let j=0; j<tasks.length; j++){
+                
+                let taskElement = this.displayTask(tasks[j], project);
+                
+                UILoad.addTaskEventListeners(taskElement, tasks[j], project.getTitle(), page);
+
+                tasksDiv.appendChild(taskElement);
+            }
+        }
+        
+    }
+    
+    static displayTask(task, project){
                 let taskElement = document.createElement("div");
                 taskElement.classList.add("task");
                 // Create the basic summary
@@ -163,11 +175,11 @@ export default class UILoad{
                 summaryDiv.classList.add("summary");
                 let taskTitle = document.createElement("div");
                 taskTitle.classList.add("title");
-                taskTitle.innerHTML = tasks[j].getTitle();
+                taskTitle.innerHTML = task.getTitle();
                 let taskDueDate = document.createElement("div");
                 taskDueDate.classList.add("dueDate");
-                taskDueDate.classList.add(tasks[j].getPriority());
-                taskDueDate.innerHTML = tasks[j].getDueDate();
+                taskDueDate.classList.add(task.getPriority());
+                taskDueDate.innerHTML = task.getDueDate();
                 //Buttons
                 let summaryButtons = document.createElement("div");
                 summaryButtons.classList.add("summaryButtons");
@@ -202,7 +214,7 @@ export default class UILoad{
                 detailsDiv.classList.add("details");
                 let taskDescription = document.createElement("div");
                 taskDescription.classList.add("description");
-                taskDescription.innerHTML = tasks[j].getDescription();
+                taskDescription.innerHTML = task.getDescription();
 
                 let projectTitle = document.createElement("div");
                 projectTitle.innerHTML = "Project: " + project.getTitle();
@@ -211,7 +223,7 @@ export default class UILoad{
                 
                 let priorityDiv = document.createElement("div");
                 priorityDiv.classList.add("priority");
-                priorityDiv.innerHTML = "Priority: " + tasks[j].getPriority();
+                priorityDiv.innerHTML = "Priority: " + task.getPriority();
 
                 // Add iscompleted 
                 let isComplete = document.createElement("div");
@@ -221,7 +233,7 @@ export default class UILoad{
                 let completeCheckbox = document.createElement("input");
                 completeCheckbox.setAttribute("type", "checkbox");
                 // If task already complete, set checkbox and class
-                if(tasks[j].isComplete){
+                if(task.isComplete){
                     completeCheckbox.checked = true;
                     taskElement.classList.add("complete");
                 }else{
@@ -232,10 +244,10 @@ export default class UILoad{
                 completeCheckbox.addEventListener("change", function(){
                     // get if checked
                     if(this.checked){
-                        tasks[j].setIsComplete(true);
+                        task.setIsComplete(true);
                         taskElement.classList.add("complete");
                     }else{
-                        tasks[j].setIsComplete(false);
+                        task.setIsComplete(false);
                         taskElement.classList.remove("complete");
                     }
                     Storage.saveList(list);
@@ -247,16 +259,10 @@ export default class UILoad{
                 detailsDiv.appendChild(projectTitle);
                 detailsDiv.appendChild(priorityDiv);
                 detailsDiv.appendChild(isComplete);
-
                 taskElement.setAttribute("project-name", project.getTitle());
                 taskElement.appendChild(summaryDiv);
                 taskElement.appendChild(detailsDiv);
-                UILoad.addTaskEventListeners(taskElement, tasks[j], project.getTitle(), page); // *******
-
-                tasksDiv.appendChild(taskElement);
-            }
-        }
-        
+                return taskElement;
     }
 
     static addTaskEventListeners(taskElem, task, projectTitle, page){
