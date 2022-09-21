@@ -30,8 +30,13 @@ export default class UILoad{
     }
 
     static loadNavigation(){
-        let nav = document.createElement("div");
-        nav.id = "nav";
+        let nav = document.getElementById("nav");
+        if(nav!=null && nav!=""){
+            nav.innerHTML="";
+        }else{
+            nav = document.createElement("div");
+            nav.id = "nav";
+        }
         let homeButton = document.createElement("p");
         homeButton.id = "homeButton";
         homeButton.innerHTML = "Home";
