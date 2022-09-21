@@ -332,7 +332,7 @@ export default class UILoad{
         
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
-            modalDiv.style.display = "none";
+            modalDiv.remove();
         }
         let form = document.getElementById("editTaskForm");
 
@@ -373,23 +373,21 @@ export default class UILoad{
     }
     
     static createAddProjectModal(){
-        let modalDiv = document.getElementById("projectModal")
-        if(modalDiv==null || modalDiv==""){
-            modalDiv = document.createElement("div");
-            modalDiv.id = "projectModal";
-            modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h2>Add Project</h2>
-            <form action="#" method="post" id="addProjectForm"><div id="formFields">
-            <label for="Title">Title:</label><input type="text" id="title" required/></div>
-            <input type="submit" value="Submit"></form></div>`;
-            content.appendChild(modalDiv);            
-        }else{
-            let form = document.getElementById("addProjectForm");
-            form.reset();
-            modalDiv.style.display="block";
+        let modalDiv = document.getElementById("projectModal");
+        if(modalDiv!=null && modalDiv!=""){
+            modalDiv.remove();
         }
-        var span = document.getElementsByClassName("close")[0];
+        modalDiv = document.createElement("div");
+        modalDiv.id = "projectModal";
+        modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h2 id="addProjectHeading">Add Project</h2>
+        <form action="#" method="post" id="addProjectForm"><div id="addProjFormFields">
+        <label for="Title">Title:</label><input type="text" id="title" required/>
+        <input type="submit" value="Submit" id="submitNewProject"></form></div></div>`;
+        content.appendChild(modalDiv);            
+        
+        let span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
-            modalDiv.style.display = "none";
+            modalDiv.remove();
         }
 
         let form = document.getElementById("addProjectForm");
@@ -446,7 +444,7 @@ export default class UILoad{
         }
         var span = document.getElementsByClassName("close")[0];
         span.onclick = function() {
-            modalDiv.style.display = "none";
+            modalDiv.remove();
         }
         let form = document.getElementById("addTaskForm");
 
