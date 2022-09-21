@@ -171,6 +171,17 @@ export default class UILoad{
                 let taskElement = document.createElement("div");
                 taskElement.classList.add("task");
                 // Create the basic summary
+                let summaryDiv = this.createSummary(task);
+                let detailsDiv = this.createDetails(task, project, taskElement);
+
+                
+                taskElement.setAttribute("project-name", project.getTitle());
+                taskElement.appendChild(summaryDiv);
+                taskElement.appendChild(detailsDiv);
+                return taskElement;
+    }
+
+    static createSummary(task){
                 let summaryDiv = document.createElement("div");
                 summaryDiv.classList.add("summary");
                 let taskTitle = document.createElement("div");
@@ -208,61 +219,61 @@ export default class UILoad{
                 summaryDiv.appendChild(taskTitle);
                 summaryDiv.appendChild(taskDueDate);
                 summaryDiv.appendChild(summaryButtons);
+                return summaryDiv;
+    }
 
-                // Create the details
-                let detailsDiv = document.createElement("div");
-                detailsDiv.classList.add("details");
-                let taskDescription = document.createElement("div");
-                taskDescription.classList.add("description");
-                taskDescription.innerHTML = task.getDescription();
+    static createDetails(task, project, taskElement){
+        // Create the details
+        let detailsDiv = document.createElement("div");
+        detailsDiv.classList.add("details");
+        let taskDescription = document.createElement("div");
+        taskDescription.classList.add("description");
+        taskDescription.innerHTML = task.getDescription();
 
-                let projectTitle = document.createElement("div");
-                projectTitle.innerHTML = "Project: " + project.getTitle();
-                projectTitle.classList.add("projectTitleDiv");
-                
-                
-                let priorityDiv = document.createElement("div");
-                priorityDiv.classList.add("priority");
-                priorityDiv.innerHTML = "Priority: " + task.getPriority();
+        let projectTitle = document.createElement("div");
+        projectTitle.innerHTML = "Project: " + project.getTitle();
+        projectTitle.classList.add("projectTitleDiv");
+        
+        
+        let priorityDiv = document.createElement("div");
+        priorityDiv.classList.add("priority");
+        priorityDiv.innerHTML = "Priority: " + task.getPriority();
 
-                // Add iscompleted 
-                let isComplete = document.createElement("div");
-                isComplete.classList.add("isComplete");
-                isComplete.innerHTML="Complete:";
-                // Add check box
-                let completeCheckbox = document.createElement("input");
-                completeCheckbox.setAttribute("type", "checkbox");
-                // If task already complete, set checkbox and class
-                if(task.isComplete){
-                    completeCheckbox.checked = true;
-                    taskElement.classList.add("complete");
-                }else{
-                    completeCheckbox.checked = false;
-                    taskElement.classList.remove("complete");
-                }
+        // Add iscompleted 
+        let isComplete = document.createElement("div");
+        isComplete.classList.add("isComplete");
+        isComplete.innerHTML="Complete:";
+        // Add check box
+        let completeCheckbox = document.createElement("input");
+        completeCheckbox.setAttribute("type", "checkbox");
+        // If task already complete, set checkbox and class
+        if(task.isComplete){
+            completeCheckbox.checked = true;
+            taskElement.classList.add("complete");
+        }else{
+            completeCheckbox.checked = false;
+            taskElement.classList.remove("complete");
+        }
 
-                completeCheckbox.addEventListener("change", function(){
-                    // get if checked
-                    if(this.checked){
-                        task.setIsComplete(true);
-                        taskElement.classList.add("complete");
-                    }else{
-                        task.setIsComplete(false);
-                        taskElement.classList.remove("complete");
-                    }
-                    Storage.saveList(list);
-                    UILoad.loadNavigation();
-                });
-                isComplete.appendChild(completeCheckbox);
+        completeCheckbox.addEventListener("change", function(){
+            // get if checked
+            if(this.checked){
+                task.setIsComplete(true);
+                taskElement.classList.add("complete");
+            }else{
+                task.setIsComplete(false);
+                taskElement.classList.remove("complete");
+            }
+            Storage.saveList(list);
+            UILoad.loadNavigation();
+        });
+        isComplete.appendChild(completeCheckbox);
 
-                detailsDiv.appendChild(taskDescription);
-                detailsDiv.appendChild(projectTitle);
-                detailsDiv.appendChild(priorityDiv);
-                detailsDiv.appendChild(isComplete);
-                taskElement.setAttribute("project-name", project.getTitle());
-                taskElement.appendChild(summaryDiv);
-                taskElement.appendChild(detailsDiv);
-                return taskElement;
+        detailsDiv.appendChild(taskDescription);
+        detailsDiv.appendChild(projectTitle);
+        detailsDiv.appendChild(priorityDiv);
+        detailsDiv.appendChild(isComplete);
+        return detailsDiv;
     }
 
     static addTaskEventListeners(taskElem, task, projectTitle, page){
