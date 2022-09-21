@@ -114,12 +114,18 @@ a:hover{
     font-size: 3rem;
 }
 
-#tasks{
+#tasksDiv{
     grid-area: 3/1/7/3;
     width: 80%;
     padding-bottom: 3rem;
     justify-self: center;
     margin-top: 5rem;
+}
+
+#tasks{
+    border: 1px solid #818589;
+    display: grid;
+    row-gap: 0.1rem;
 }
 
 #key{
@@ -182,7 +188,6 @@ a:hover{
 .task{
     display: grid;
     grid-template-columns: 1fr;
-    margin-bottom: 0.09rem;
 }
 
 .summary{

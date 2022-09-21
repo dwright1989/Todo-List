@@ -95,17 +95,16 @@ export default class UILoad{
         heading.innerHTML = "Home - all tasks";
         heading.id = "mainContentHeading";
         mainContent.appendChild(heading);
-        /*let keyDiv = document.createElement("div");
-        keyDiv.id = "key";
-        keyDiv.innerHTML = '<h3>Priority Key</h3><span class="low">Low </span><span class="medium">Medium </span><span class="high">High</span>';
-        mainContent.appendChild(keyDiv);*/
         let addTask = document.createElement("div");
         addTask.id="addTask";
         mainContent.appendChild(addTask);
         /* UI for the tasks */
+        let outerTasksDiv = document.createElement("div");
+        outerTasksDiv.id = "tasksDiv";
         let tasksDiv = document.createElement("div");
         tasksDiv.id = "tasks";
-        mainContent.appendChild(tasksDiv);
+        outerTasksDiv.append(tasksDiv);
+        mainContent.appendChild(outerTasksDiv);
         content.appendChild(mainContent);
         // Loop through projects and display all tasks
         let projects = Storage.getList().getProjects();
@@ -251,11 +250,16 @@ export default class UILoad{
                         detailsDiv.style.display = "none";
                     }
                 });
-                // edit task
-                deleteTask.addEventListener("click", function(){
-                    console.log("delete was clicked");
-                });
                 // delete task
+                deleteTask.addEventListener("click", function(){
+                    Storage.deleteTask(tasks[j], project.getTitle());
+                    if(page.toLowerCase()=="home"){
+                        UILoad.loadFullPage();
+                    }else{
+                        UILoad.loadProject(project.getTitle());
+                    }
+                });
+                // edit task
                 edit.addEventListener("click", function(){
                     console.log("edit was clicked");
                 });
