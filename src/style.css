@@ -163,15 +163,59 @@ a:hover{
     overflow: auto; 
 }
 
+
+
 .modal-content{
     background-color: var(--secondary-color);
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid var(--main-color);
     border-radius: 5px;
-    width: 20rem;
     box-shadow: 5px 5px 5px var(--main-color); 
 }
+
+.addProj-modal-content{
+    width: 20rem;
+}
+
+.addTask-modal-content{
+    width: 30rem;
+}
+
+
+#addProjFormFields{
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  .submitButton{
+      
+      background-color: var(--main-color);
+      color: var(--secondary-color);
+      width: 5rem;
+      justify-self: center;
+  }
+
+  #submitProjButton{
+    grid-area: 2/1/3/3;
+  }
+
+  #submitTaskButton{
+      grid-area: 6/1/7/3;
+  }
+
+  #addTaskFormFields{
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 2fr 2fr 1fr 1fr;
+  }
+  .center{
+    text-align:center;
+  }
+
 
   /* The Close Button */
   .close {
@@ -186,24 +230,6 @@ a:hover{
     color: var(--tertiary-color);
     text-decoration: none;
     cursor: pointer;
-  }
-
-  #addProjFormFields{
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: repeat(2, 1fr);
-  }
-
-  #submitNewProject{
-      grid-area: 2/1/3/3;
-      background-color: var(--main-color);
-      color: var(--secondary-color);
-      width: 5rem;
-      justify-self: center;
-  }
-  #addProjectHeading{
-    text-align:center;
   }
 
 /*--------TASKS---------*/

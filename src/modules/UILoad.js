@@ -379,10 +379,10 @@ export default class UILoad{
         }
         modalDiv = document.createElement("div");
         modalDiv.id = "projectModal";
-        modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span><h2 id="addProjectHeading">Add Project</h2>
+        modalDiv.innerHTML = `<div class="modal-content addProj-modal-content"><span class="close">&times;</span><h2 class="center">Add Project</h2>
         <form action="#" method="post" id="addProjectForm"><div id="addProjFormFields">
         <label for="Title">Title:</label><input type="text" id="title" required/>
-        <input type="submit" value="Submit" id="submitNewProject"></form></div></div>`;
+        <input type="submit" value="Submit" class="submitButton" id="submitProjButton"></form></div></div>`;
         content.appendChild(modalDiv);            
         
         let span = document.getElementsByClassName("close")[0];
@@ -425,16 +425,16 @@ export default class UILoad{
         if(modalDiv==null || modalDiv==""){
             modalDiv = document.createElement("div");
             modalDiv.id = "taskModal";
-            modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span>
-            <h2>Add Task</h2><form action="#" method="post" id="addTaskForm"><div id="formFields">
+            modalDiv.innerHTML = `<div class="modal-content addTask-modal-content"><span class="close">&times;</span>
+            <h2 class="center">Add Task</h2><form action="#" method="post" id="addTaskForm"><div id="addTaskFormFields">
             <label for="Title">Title:</label><input type="text" id="title" required/>
             Description:<textarea name="description" form="addTaskForm" required></textarea>
-            Priority: <input type="radio" id="low" name="priority" value="low" checked><label for="low">Low</label><br>
+            <div>Priority: </div><div><input type="radio" id="low" name="priority" value="low" checked><label for="low">Low</label><br>
             <input type="radio" id="medium" name="priority" value="medium"><label for="medium">Medium</label><br>
-            <input type="radio" id="high" name="priority" value="high"><label for="high">High</label>
-            <label for="dueDate">Date Due:</label><br><input type="date" id="dueDate" name="dueDate">
+            <input type="radio" id="high" name="priority" value="high"><label for="high">High</label></div>
+            <div><label for="dueDate">Date Due:</label></div><div><input type="date" id="dueDate" name="dueDate"></div>
             <input type="hidden" id="project" name="project" value="`+project.getTitle()+`">
-            <br></div><input type="submit" value="Submit"></form></div>`;
+            <br><input type="submit" value="Submit" class="submitButton" id="submitTaskButton"></form></div></div>`;
             content.appendChild(modalDiv);            
         }else{
             modalDiv.style.display="block";
