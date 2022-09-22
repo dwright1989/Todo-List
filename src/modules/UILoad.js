@@ -318,16 +318,16 @@ export default class UILoad{
         }
         modalDiv = document.createElement("div");
         modalDiv.id = "taskEditModal";
-        modalDiv.innerHTML = `<div class="modal-content"><span class="close">&times;</span>
-        <h2>Edit Task</h2><form action="#" method="post" id="editTaskForm"><div id="formFields">
+        modalDiv.innerHTML = `<div class="modal-content addTask-modal-content"><span class="close">&times;</span>
+        <h2 class="center">Edit Task</h2><form action="#" method="post" id="editTaskForm"><div id="editTaskFormFields">
         <label for="Title">Title:</label><input type="text" id="title" value="`+task.getTitle()+`"required/>
         Description:<textarea name="description" form="editTaskForm"  value="`+task.getDescription()+`" required>`+task.getDescription()+`</textarea>
-        Priority: <input type="radio" id="low" name="priority" value="`+task.getPriority()+`" checked><label for="low">Low</label><br>
+        <div>Priority: </div><div><input type="radio" id="low" name="priority" value="`+task.getPriority()+`" checked><label for="low">Low</label><br>
         <input type="radio" id="medium" name="priority" value="medium"><label for="medium">Medium</label><br>
-        <input type="radio" id="high" name="priority" value="high"><label for="high">High</label>
-        <label for="dueDate">Date Due:</label><br><input type="date" id="dueDate" name="dueDate" value="`+task.getDueDate()+`">
-        <input type="hidden" id="project" name="project" value="`+projectTitle+`">
-        <br></div><input type="submit" value="Submit"></form></div>`;
+        <input type="radio" id="high" name="priority" value="high"><label for="high">High</label></div>
+        <label for="dueDate">Date Due:</label><input type="date" id="dueDate" name="dueDate" value="`+task.getDueDate()+`">
+       <input type="hidden" id="project" name="project" value="`+projectTitle+`">
+        <input type="submit" value="Submit" class="submitButton submitTaskButton"></div></form></div>`;
         content.appendChild(modalDiv);            
         
         var span = document.getElementsByClassName("close")[0];
@@ -434,7 +434,7 @@ export default class UILoad{
             <input type="radio" id="high" name="priority" value="high"><label for="high">High</label></div>
             <div><label for="dueDate">Date Due:</label></div><div><input type="date" id="dueDate" name="dueDate"></div>
             <input type="hidden" id="project" name="project" value="`+project.getTitle()+`">
-            <br><input type="submit" value="Submit" class="submitButton" id="submitTaskButton"></form></div></div>`;
+            <br><input type="submit" value="Submit" class="submitButton submitTaskButton"></form></div></div>`;
             content.appendChild(modalDiv);            
         }else{
             modalDiv.style.display="block";
