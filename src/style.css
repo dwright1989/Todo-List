@@ -32,7 +32,6 @@ h1, h2{
 #content{
     display:grid;
     grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 3.3fr;
     min-height: 100%;
     margin-bottom: 0;
     
@@ -61,7 +60,7 @@ h1, h2{
     grid-area: 2/1/6/2;
     padding: 2rem;
     font-size: 1.4rem;
-     
+    height: 100%;
 }
 
 #navDiv{
