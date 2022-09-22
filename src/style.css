@@ -24,6 +24,7 @@ body{
     /*font-family: 'Mukta', sans-serif;*/
     font-family: 'Cinzel', serif;
     min-height: 100%;
+    
 }
 
 h1, h2{
@@ -33,9 +34,10 @@ h1, h2{
 #content{
     display:grid;
     grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 6fr;
+    grid-template-rows: 1fr 3.3fr;
     min-height: 100%;
     margin-bottom: 0;
+    
 }
 
 /*--------BANNER---------*/
@@ -60,6 +62,8 @@ h1, h2{
     color: var(--main-color);
     grid-area: 2/1/6/2;
     padding: 2rem;
+    font-size: 1.4rem
+    
 }
 
 #nav a{
@@ -67,6 +71,13 @@ h1, h2{
     text-decoration: none;
     cursor:pointer;
 }
+
+
+#nav a:hover{
+    color: var(--secondary-color);
+}
+
+
 
 #homeButton{
     cursor:pointer;
@@ -90,12 +101,17 @@ a:hover{
 }
 
 .todo{
-    color: red;
+    color: var(--secondary-color);
+    border-radius: 25px;
+    background-color: var(--main-color);
+    padding: 0rem 0.5rem;
 }
 
 #add-project{
     padding-top: 3rem;
 }
+
+
 
 /*--------MAIN---------*/
 
@@ -106,6 +122,7 @@ a:hover{
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 5% 5% 90%;
+    font-size: 1.2rem;
 }
 
 #mainContentHeading{
@@ -269,7 +286,7 @@ a:hover{
     grid-template-rows:repeat(3, 1fr);
     display: none;
     background-color: var(--secondary-color);
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 .description{
@@ -281,17 +298,28 @@ a:hover{
     grid-area:1/2/2/2;
     padding: 0.3rem 1rem;
     align-self: center;
+    display:flex;
+    gap: 0.5rem;
 }
 
 .priority{
     grid-area:2/2/3/3;
     align-self: center;
     padding: 0.3rem 1rem;
+    display:flex;
+    gap: 0.5rem;
 }
 
 .isComplete{
     grid-area:3/2/4/3;
     padding: 0.3rem 1rem;
+    display:flex;
+    gap: 0.5rem;
+    align-self: center;
+}
+
+.completeCheckbox{
+    align-self: center;
 }
 
 

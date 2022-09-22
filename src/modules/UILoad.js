@@ -67,18 +67,20 @@ export default class UILoad{
             projectLink.classList.add("projectLink");
             projectLink.id = "project" + projects[i].getTitle();
             projectLink.innerHTML = projects[i].getTitle();
-            let projectTasksNumber = document.createElement("p");
+            let projectTasksNumber = document.createElement("soan");
             projectTasksNumber.innerHTML = taskNumber;
             if(taskNumber>0){
                 projectTasksNumber.classList.add("todo");
             }
+            let projectTasksNumberDiv = document.createElement("div");
+            projectTasksNumberDiv.appendChild(projectTasksNumber);
 
             // Add event listener to each project link
             projectLink.addEventListener("click", function(){
                 UILoad.loadProject(this.innerHTML);
             });
             projectsDiv.appendChild(projectLink);
-            projectsDiv.appendChild(projectTasksNumber);
+            projectsDiv.appendChild(projectTasksNumberDiv);
         }
 
         let addProjectButton = document.createElement("a"); // need to add event listener
@@ -230,13 +232,13 @@ export default class UILoad{
         taskDescription.innerHTML = task.getDescription();
 
         let projectTitle = document.createElement("div");
-        projectTitle.innerHTML = "Project: " + project.getTitle();
+        projectTitle.innerHTML = "<div>Project: </div><div>" + project.getTitle() + "</div>";
         projectTitle.classList.add("projectTitleDiv");
         
         
         let priorityDiv = document.createElement("div");
         priorityDiv.classList.add("priority");
-        priorityDiv.innerHTML = "Priority: <p class='"+task.getPriority().toLowerCase()+"'>" + task.getPriority() + "</p>";
+        priorityDiv.innerHTML = "<div>Priority: </div><div><p class='"+task.getPriority().toLowerCase()+"'>" + task.getPriority() + "</p></div>";
 
         // Add iscompleted 
         let isComplete = document.createElement("div");
@@ -245,6 +247,7 @@ export default class UILoad{
         // Add check box
         let completeCheckbox = document.createElement("input");
         completeCheckbox.setAttribute("type", "checkbox");
+        completeCheckbox.classList.add("completeCheckbox");
         // If task already complete, set checkbox and class
         if(task.isComplete){
             completeCheckbox.checked = true;
