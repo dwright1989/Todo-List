@@ -3,6 +3,11 @@ import Project from './Project';
 import Task from './Task';
 import Storage from './Storage';
 import { compareAsc, format, endOfWeek } from 'date-fns';
+import HomeIMG from '../home.png'
+import ProjectsIMG from '../projects.png'
+import ProjectIMG from '../project.png'
+import AddIMG from '../add.png'
+
 
 export default class UILoad{
 
@@ -38,18 +43,33 @@ export default class UILoad{
             nav = document.createElement("div");
             nav.id = "nav";
         }
+        let navDiv = document.getElementById("navDiv");
+        if(navDiv!=null && navDiv!=""){
+            navDiv.innerHTML="";
+        }else{
+            navDiv = document.createElement("div");
+            navDiv.id = "navDiv";
+        }
+        let homeIcon = document.createElement("img");
+        homeIcon.src = HomeIMG;
+        homeIcon.id = "homeIcon";
         let homeButton = document.createElement("p");
         homeButton.id = "homeButton";
         homeButton.innerHTML = "Home";
-   
-        nav.appendChild(homeButton);
+        navDiv.appendChild(homeIcon);
+        navDiv.appendChild(homeButton);
         homeButton.addEventListener("click", function(){
             UILoad.loadFullPage();
         });
 
         let projectsSectionTitle = document.createElement("p");
         projectsSectionTitle.innerHTML = "Projects";
-        nav.appendChild(projectsSectionTitle);
+        projectsSectionTitle.id = "projectsHeading";
+        let projectsIcon = document.createElement("img");
+        projectsIcon.src = ProjectsIMG;
+        projectsIcon.id = "projectsIcon";
+        navDiv.appendChild(projectsIcon);
+        navDiv.appendChild(projectsSectionTitle);
         let projectsDiv = document.createElement("div");
         projectsDiv.id = "projects";
         // Add the projects to the navigation bar
@@ -80,18 +100,29 @@ export default class UILoad{
             projectLink.addEventListener("click", function(){
                 UILoad.loadProject(this.innerHTML);
             });
+            let projectIcon = document.createElement("img");
+            projectIcon.src = ProjectIMG;
+            projectIcon.id = "projectIcon";
+            projectsDiv.appendChild(projectIcon);
             projectsDiv.appendChild(projectLink);
             projectsDiv.appendChild(projectTasksNumberDiv);
         }
 
-        let addProjectButton = document.createElement("a"); // need to add event listener
-        addProjectButton.id = "add-project";
-        addProjectButton.innerHTML = "+ Add Project";
-        addProjectButton.addEventListener("click", function(){
+        //let addProjectButton = document.createElement("a"); // need to add event listener
+        //addProjectButton.id = "add-project";
+        //addProjectButton.innerHTML = "Add Project";
+        
+        let addIcon = document.createElement("img");
+        addIcon.src = AddIMG;
+        addIcon.id = "addIcon";
+        addIcon.addEventListener("click", function(){
             UILoad.createAddProjectModal();
         });
-        projectsDiv.appendChild(addProjectButton);
-        nav.appendChild(projectsDiv);
+        projectsDiv.appendChild(addIcon);
+        
+        //projectsDiv.appendChild(addProjectButton);
+        navDiv.appendChild(projectsDiv);
+        nav.appendChild(navDiv);
         content.appendChild(nav);
     }
 

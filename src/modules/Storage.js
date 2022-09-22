@@ -41,7 +41,7 @@ export default class Storage {
       let projects = list.getProjects();
       for(let i=0; i<projects.length; i++){
         let tasks = projects[i].getTasks();
-        for(let j=0; j<tasks.length; j++){s
+        for(let j=0; j<tasks.length; j++){
           if(tasks[j].getTitle().toLowerCase == task.getTitle().toLowerCase){
             projects[i].removeTask(task);
           }
