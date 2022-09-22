@@ -13,7 +13,7 @@ import EditIMG from '../edit.png'
 
 export default class UILoad{
 
-    static loadFullPage(){
+    static loadFullPage(page){
         let content = document.getElementById("content");
         if(content.innerHTML!=null && content.innerHTML!=""){
             content.innerHTML="";
@@ -23,7 +23,14 @@ export default class UILoad{
         // Load Navigation
         UILoad.loadNavigation();
         // Load main/task content
-        UILoad.loadMainContent();
+        if(page=="home"){
+            UILoad.loadMainContent("home");
+        }else if(page=="today"){
+            UILoad.loadMainContent("today");
+        }else{
+            UILoad.loadMainContent("home");
+        }
+        
         content.appendChild(banner);
     }
 
@@ -61,8 +68,17 @@ export default class UILoad{
         navDiv.appendChild(homeIcon);
         navDiv.appendChild(homeButton);
         homeButton.addEventListener("click", function(){
-            UILoad.loadFullPage();
+            UILoad.loadFullPage("home");
         });
+
+         // Today's tasks
+         let todayButton = document.createElement("p");
+         todayButton.id = "todayButton";
+         todayButton.innerHTML = "Today";
+         todayButton.addEventListener("click", function(){
+            UILoad.loadFullPage("today");
+        })
+         navDiv.appendChild(todayButton);
 
         let projectsSectionTitle = document.createElement("p");
         projectsSectionTitle.innerHTML = "Projects";
@@ -74,6 +90,8 @@ export default class UILoad{
         navDiv.appendChild(projectsSectionTitle);
         let projectsDiv = document.createElement("div");
         projectsDiv.id = "projects";
+
+
         // Add the projects to the navigation bar
         let projects = Storage.getList().getProjects();
         for(let i = 0; i < projects.length; i++){
@@ -120,16 +138,19 @@ export default class UILoad{
         
 
         navDiv.appendChild(projectsDiv);
+
+       
+
         nav.appendChild(navDiv);
         content.appendChild(nav);
     }
 
-    static loadMainContent(){
+    static loadMainContent(page){
         /* UI for mainContent banner which includes title, key and buttons */
         let mainContent = document.createElement("div");
         mainContent.id = "mainContent";
         let heading = document.createElement("h2");
-        heading.innerHTML = "Home - all tasks";
+        heading.innerHTML = page + " - all tasks";
         heading.id = "mainContentHeading";
 
         mainContent.appendChild(heading);
@@ -148,7 +169,7 @@ export default class UILoad{
         let projects = Storage.getList().getProjects();
         
         for(let i=0; i<projects.length; i++){
-            UILoad.displayTasks(projects[i], "home");           
+                UILoad.displayTasks(projects[i], page);                       
         }     
     }
 
@@ -182,18 +203,32 @@ export default class UILoad{
         let list = Storage.getList();
         let tasks = list.getProject(project.getTitle()).getTasks();
         let tasksDiv = document.getElementById("tasks");
-        if(tasks.length==0 && page=="project"){
+        if(tasks.length==0 && page!="home"){
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
             tasksDiv.classList.remove("border");
         }else{
             tasksDiv.classList.add("border");
             for(let j=0; j<tasks.length; j++){
+                let displayTask = true;
+                if(page=="today"){
+                    // check if the task is due today
+                    let today = format(new Date(), 'yyyy-MM-dd');
+                    if(today==tasks[j].getDueDate()){
+                        displayTask = true;
+                    }else{
+                        displayTask = false;
+                    }
+                }else if(page=="this week"){
+                    
+                }
+                if(displayTask){
+                    let taskElement = UILoad.displayTask(tasks[j], project);
                 
-                let taskElement = UILoad.displayTask(tasks[j], project);
-                
-                UILoad.addTaskEventListeners(taskElement, tasks[j], project.getTitle(), page);
+                    UILoad.addTaskEventListeners(taskElement, tasks[j], project.getTitle(), page);
 
-                tasksDiv.appendChild(taskElement);
+                    tasksDiv.appendChild(taskElement);
+                }
+                
             }
         }
         
@@ -222,7 +257,6 @@ export default class UILoad{
                 let taskDueDate = document.createElement("div");
                 taskDueDate.classList.add("dueDate");
                 let today = format(new Date(), 'yyyy-MM-dd');
-                console.log("Today is: " + today + " and due date is: " + task.getDueDate())
                 if(task.getDueDate()<today){
                     taskDueDate.classList.add("overdue");
                 }
@@ -342,8 +376,14 @@ export default class UILoad{
                 deleteTask.addEventListener("click", function(){
                     Storage.deleteTask(task, projectTitle);
                     if(page.toLowerCase()=="home"){
-                        UILoad.loadFullPage();
-                    }else{
+                        UILoad.loadFullPage("home");
+                    }else if(page.toLowerCase()=="today"){
+                        UILoad.loadFullPage("today");
+                    }
+                    else if(page.toLowerCase()=="this week"){
+                        UILoad.loadFullPage("this week");
+                    }
+                    else{
                         UILoad.loadProject(projectTitle);
                     }
                 });
