@@ -8,6 +8,6 @@ The page will display lists for "Today", "This Week" as well as each project.
 
 Possible future functionality:
 
-lists for each priority (low, medium, high) spanning all projects
-ordering of tasks by title, due date, priority
-show/hide completed tasks
+* lists for each priority (low, medium, high) spanning all projects
+* ordering of tasks by title, due date, priority
+* show/hide completed tasks
