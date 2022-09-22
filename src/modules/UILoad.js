@@ -3,12 +3,14 @@ import Project from './Project';
 import Task from './Task';
 import Storage from './Storage';
 import { compareAsc, format, endOfWeek } from 'date-fns';
-import HomeIMG from '../home.png'
-import ProjectsIMG from '../projects.png'
-import ProjectIMG from '../project.png'
-import AddIMG from '../add.png'
-import DeleteIMG from '../delete.png'
-import EditIMG from '../edit.png'
+import HomeIMG from '../home.png';
+import ProjectsIMG from '../projects.png';
+import ProjectIMG from '../project.png';
+import AddIMG from '../add.png';
+import DeleteIMG from '../delete.png';
+import EditIMG from '../edit.png';
+import TodayIMG from '../today.png';
+import ThisweekIMG from '../thisweek.png';
 
 
 export default class UILoad{
@@ -80,7 +82,11 @@ export default class UILoad{
          todayButton.innerHTML = "Today";
          todayButton.addEventListener("click", function(){
             UILoad.loadFullPage("today");
-        })
+        });
+        let todayIcon = document.createElement("img");
+        todayIcon.src = TodayIMG;
+        todayIcon.id = "todayIcon";
+        navDiv.appendChild(todayIcon);
          navDiv.appendChild(todayButton);
 
         // This week's tasks
@@ -89,7 +95,11 @@ export default class UILoad{
          thisWeekButton.innerHTML = "this week";
          thisWeekButton.addEventListener("click", function(){
             UILoad.loadFullPage("this week");
-        })
+        });
+         let thisWeekIcon = document.createElement("img");
+         thisWeekIcon.src = ThisweekIMG;
+         thisWeekIcon.id = "thisWeekIcon";
+        navDiv.appendChild(thisWeekIcon);
          navDiv.appendChild(thisWeekButton);
 
         let projectsSectionTitle = document.createElement("p");
