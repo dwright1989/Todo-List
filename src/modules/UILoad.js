@@ -1,7 +1,8 @@
-import List from './List'
-import Project from './Project'
-import Task from './Task'
-import Storage from './Storage'
+
+import Project from './Project';
+import Task from './Task';
+import Storage from './Storage';
+import { compareAsc, format, endOfWeek } from 'date-fns';
 
 export default class UILoad{
 
@@ -189,6 +190,11 @@ export default class UILoad{
                 taskTitle.innerHTML = task.getTitle();
                 let taskDueDate = document.createElement("div");
                 taskDueDate.classList.add("dueDate");
+                let today = format(new Date(), 'yyyy-MM-dd');
+                console.log("Today is: " + today + " and due date is: " + task.getDueDate())
+                if(task.getDueDate()<today){
+                    taskDueDate.classList.add("overdue");
+                }
                 
                 taskDueDate.innerHTML = task.getDueDate();
                 //Buttons

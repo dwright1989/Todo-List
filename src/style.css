@@ -326,3 +326,7 @@ a:hover{
 .complete{
     text-decoration: line-through;
 }
+
+.overdue{
+    color: red;
+}
