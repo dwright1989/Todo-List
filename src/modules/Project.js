@@ -1,3 +1,5 @@
+import Task from "./Task";
+
 export default class Project{
     constructor(title){
         this.title = title;
@@ -18,6 +20,20 @@ export default class Project{
         }        
     }
 
+    getTask(task){
+        let tasks = this.getTasks();
+
+        
+        for(let i=0; this.tasks.length; i++){
+            console.log("this task: " + JSON.stringify(tasks[i]));
+            if(tasks[i].getTitle().toLowerCase==task.getTitle().toLowerCase){
+                return tasks[i];
+            }
+        }
+        
+
+        
+    }
     getTasks(){
         return this.tasks;
     }
@@ -45,6 +61,11 @@ export default class Project{
             }
         }
         return exists;
+    }
+
+    replaceTask(oldTask, newTask){
+        let arrayIndex = this.tasks.indexOf(oldTask);
+        this.tasks[arrayIndex] = newTask;
     }
 
     /*
