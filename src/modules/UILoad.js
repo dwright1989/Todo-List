@@ -27,7 +27,10 @@ export default class UILoad{
             UILoad.loadMainContent("home");
         }else if(page=="today"){
             UILoad.loadMainContent("today");
-        }else{
+        }else if(page=="this week"){
+            UILoad.loadMainContent("this week");
+        }
+        else{
             UILoad.loadMainContent("home");
         }
         
@@ -79,6 +82,15 @@ export default class UILoad{
             UILoad.loadFullPage("today");
         })
          navDiv.appendChild(todayButton);
+
+        // This week's tasks
+         let thisWeekButton = document.createElement("p");
+         thisWeekButton.id = "thisWeekButton";
+         thisWeekButton.innerHTML = "this week";
+         thisWeekButton.addEventListener("click", function(){
+            UILoad.loadFullPage("this week");
+        })
+         navDiv.appendChild(thisWeekButton);
 
         let projectsSectionTitle = document.createElement("p");
         projectsSectionTitle.innerHTML = "Projects";
@@ -170,7 +182,14 @@ export default class UILoad{
         
         for(let i=0; i<projects.length; i++){
                 UILoad.displayTasks(projects[i], page);                       
-        }     
+        }    
+        if(tasksDiv.innerHTML==""&&page=="today"){
+            tasksDiv.innerHTML = "Tasks up to date for today.";
+            tasksDiv.classList.remove("border");
+        }else if(tasksDiv.innerHTML==""&&page=="this week"){
+            tasksDiv.innerHTML = "Tasks up to date for this week.";
+            tasksDiv.classList.remove("border");
+        }
     }
 
     static loadProject(projectTitle){
@@ -206,7 +225,8 @@ export default class UILoad{
         if(tasks.length==0 && page!="home"){
             tasksDiv.innerHTML = "No tasks exist in this project yet.";
             tasksDiv.classList.remove("border");
-        }else{
+        }
+        else{
             tasksDiv.classList.add("border");
             for(let j=0; j<tasks.length; j++){
                 let displayTask = true;
@@ -219,7 +239,13 @@ export default class UILoad{
                         displayTask = false;
                     }
                 }else if(page=="this week"){
-                    
+                    let end = endOfWeek(new Date(), {weekStartsOn: 1});
+                    let dueDate = tasks[j].getDueDate();
+                    if(Date.parse(dueDate)<Date.parse(end)){
+                        displayTask=true;
+                    }else{
+                        displayTask = false;
+                    }
                 }
                 if(displayTask){
                     let taskElement = UILoad.displayTask(tasks[j], project);
@@ -230,7 +256,9 @@ export default class UILoad{
                 }
                 
             }
+            
         }
+        
         
     }
     
