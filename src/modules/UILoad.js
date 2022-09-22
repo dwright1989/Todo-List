@@ -7,6 +7,8 @@ import HomeIMG from '../home.png'
 import ProjectsIMG from '../projects.png'
 import ProjectIMG from '../project.png'
 import AddIMG from '../add.png'
+import DeleteIMG from '../delete.png'
+import EditIMG from '../edit.png'
 
 
 export default class UILoad{
@@ -107,10 +109,6 @@ export default class UILoad{
             projectsDiv.appendChild(projectLink);
             projectsDiv.appendChild(projectTasksNumberDiv);
         }
-
-        //let addProjectButton = document.createElement("a"); // need to add event listener
-        //addProjectButton.id = "add-project";
-        //addProjectButton.innerHTML = "Add Project";
         
         let addIcon = document.createElement("img");
         addIcon.src = AddIMG;
@@ -120,7 +118,7 @@ export default class UILoad{
         });
         projectsDiv.appendChild(addIcon);
         
-        //projectsDiv.appendChild(addProjectButton);
+
         navDiv.appendChild(projectsDiv);
         nav.appendChild(navDiv);
         content.appendChild(nav);
@@ -133,6 +131,7 @@ export default class UILoad{
         let heading = document.createElement("h2");
         heading.innerHTML = "Home - all tasks";
         heading.id = "mainContentHeading";
+
         mainContent.appendChild(heading);
         let addTask = document.createElement("div");
         addTask.id="addTask";
@@ -167,10 +166,11 @@ export default class UILoad{
         let mainHeader = document.getElementById("mainContentHeading");
         mainHeader.innerHTML = projectTitle;
         let addTask = document.getElementById("addTask");
-        addTask.innerHTML="";
-        let addTaskBtn = document.createElement("button");
+        addTask.innerHTML="Add Task ";
+        let addTaskBtn = document.createElement("img");
         addTaskBtn.id = "addTaskBtn";
-        addTaskBtn.innerHTML = "Add Task";
+        addTaskBtn.src = AddIMG;
+        addTaskBtn.classList.add("pointer");
         addTaskBtn.addEventListener("click", function(){
             UILoad.createAddTaskModal(project);
         });        
@@ -240,14 +240,16 @@ export default class UILoad{
 
                 let edit = document.createElement("div"); 
                 edit.classList.add("editTask");
-                let editButton = document.createElement("a");
-                editButton.innerHTML = "Edit";
+                edit.classList.add("pointer");
+                let editButton = document.createElement("img");
+                editButton.src = EditIMG;
                 edit.appendChild(editButton);
 
                 let deleteTask = document.createElement("div"); 
                 deleteTask.classList.add("deleteTask");
-                let deleteButton = document.createElement("a");
-                deleteButton.innerHTML = "Delete";
+                deleteTask.classList.add("pointer");
+                let deleteButton = document.createElement("img");
+                deleteButton.src = DeleteIMG;
                 deleteTask.appendChild(deleteButton);
 
                 summaryButtons.appendChild(showDetails);

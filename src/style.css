@@ -197,7 +197,12 @@ a:hover{
 
 #addTask{
     grid-area: 2/2/3/3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
 }
+
 
 /*--------MODALS---------*/
 #projectModal, #taskModal, #taskEditModal{
@@ -360,3 +365,8 @@ a:hover{
 .overdue{
     color: red;
 }
+
+.pointer{
+    cursor: pointer;
+}
+
